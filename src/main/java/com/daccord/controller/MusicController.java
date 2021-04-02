@@ -26,13 +26,18 @@ public class MusicController {
 		return musicService.getAllMusicDetails();
 	}
 	
-	@GetMapping("/{artista}")
-	public Music getMusicArtista(@PathVariable String artista) throws InterruptedException, ExecutionException {
-		return musicService.getMusicDetailsByArtista(artista);
+	@GetMapping("/{id}")
+	public Music getMusicId(@PathVariable String documento) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsById(documento);
 	}
 	
 	@PostMapping("/add")
 	public String saveMusic(@RequestBody Music music) throws InterruptedException, ExecutionException {
 		return musicService.saveMusic(music);
+	}
+	
+	@GetMapping("/nivel/{nivel}")
+	public List<Music> getMusicNivel(@PathVariable String nivel) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsByNivel(nivel);
 	}
 }

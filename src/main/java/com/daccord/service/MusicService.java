@@ -12,6 +12,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
@@ -40,10 +42,10 @@ public class MusicService {
 		return musicList;
 	}
 	
-	public Music getMusicDetailsByArtista(String artista) throws InterruptedException, ExecutionException {
+	public Music getMusicDetailsById(String documento) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(artista);
+		DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(documento);
 		
 		ApiFuture<DocumentSnapshot> future = documentReference.get();
 		
@@ -60,8 +62,25 @@ public class MusicService {
 	public String saveMusic(Music music) throws InterruptedException, ExecutionException {		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(music.getArtista()).set(music);
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(music.get_id()).set(music);
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	public List<Music> getMusicDetailsByNivel(String nivel) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query documentReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("nivel", nivel);
+		
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		
+		QuerySnapshot document = future.get();
+		
+		if(!document.isEmpty()) {
+			List<Music> music = document.toObjects(Music.class);
+			return music;
+		} else {
+			return null;
+		}
 	}
 }
