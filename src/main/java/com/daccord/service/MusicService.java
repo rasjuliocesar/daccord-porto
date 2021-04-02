@@ -56,4 +56,12 @@ public class MusicService {
 			return null;
 		}
 	}
+	
+	public String saveMusic(Music music) throws InterruptedException, ExecutionException {		
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(music.getArtista()).set(music);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
 }
