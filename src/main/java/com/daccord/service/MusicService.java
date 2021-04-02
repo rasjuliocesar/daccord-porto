@@ -39,4 +39,21 @@ public class MusicService {
 		
 		return musicList;
 	}
+	
+	public Music getMusicDetailsByArtista(String artista) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(artista);
+		
+		ApiFuture<DocumentSnapshot> future = documentReference.get();
+		
+		DocumentSnapshot document = future.get();
+		
+		if(document.exists()) {
+			Music music = document.toObject(Music.class);
+			return music;
+		} else {
+			return null;
+		}
+	}
 }
