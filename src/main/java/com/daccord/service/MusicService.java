@@ -21,10 +21,40 @@ public class MusicService {
 
 	private static final String COLLECTION_NAME = "music";
 	
-	public List<Music> getAllMusicDetails() throws InterruptedException, ExecutionException {
+	/**
+	 * Salvar musica
+	 * @param music
+	 * @return
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public String saveMusic(Music music) 
+			throws InterruptedException, ExecutionException {	
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		Iterable<DocumentReference> documentReference = dbFirestore.collection(COLLECTION_NAME).listDocuments();
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore
+				.collection(COLLECTION_NAME)
+				.document(music.get_id())
+				.set(music);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	/**
+	 * Buscar todas as musicas.
+	 * @return musicList
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public List<Music> getAllMusicDetails() 
+			throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Iterable<DocumentReference> documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.listDocuments();
 		Iterator<DocumentReference> iterator = documentReference.iterator();
 		
 		List<Music> musicList = new ArrayList<>();
@@ -42,45 +72,88 @@ public class MusicService {
 		return musicList;
 	}
 	
-	public Music getMusicDetailsById(String documento) throws InterruptedException, ExecutionException {
+	/**
+	 * Buscar musicas por Id.
+	 * @param id
+	 * @return music
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Carlos.Pereira
+	 */
+	public Music getMusicDetailsById(String id) 
+			throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		DocumentReference documentReference = dbFirestore.collection(COLLECTION_NAME).document(documento);
-		
-		ApiFuture<DocumentSnapshot> future = documentReference.get();
-		
-		DocumentSnapshot document = future.get();
-		
-		if(document.exists()) {
-			Music music = document.toObject(Music.class);
-			return music;
-		} else {
-			return null;
-		}
-	}
-	
-	public String saveMusic(Music music) throws InterruptedException, ExecutionException {		
-		Firestore dbFirestore = FirestoreClient.getFirestore();
-		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(music.get_id()).set(music);
-		
-		return collectionApiFuture.get().getUpdateTime().toString();
-	}
-	
-	public List<Music> getMusicDetailsByNivel(String nivel) throws InterruptedException, ExecutionException {
-		Firestore dbFirestore = FirestoreClient.getFirestore();
-		
-		Query documentReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("nivel", nivel);
+		Query documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.whereEqualTo("_id", id);
 		
 		ApiFuture<QuerySnapshot> future = documentReference.get();
 		
 		QuerySnapshot document = future.get();
 		
 		if(!document.isEmpty()) {
-			List<Music> music = document.toObjects(Music.class);
+			Music music = document.toObjects(Music.class).get(0);
 			return music;
 		} else {
 			return null;
 		}
 	}
+	
+	/**
+	 * Buscar musicas por Nivel.
+	 * @param nivel
+	 * @return musicList
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Carlos.Pereira
+	 */
+	public List<Music> getMusicDetailsByNivel(String nivel) 
+			throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.whereEqualTo("nivel", nivel);
+		
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		
+		QuerySnapshot document = future.get();
+		
+		if(!document.isEmpty()) {
+			List<Music> musicList = document.toObjects(Music.class);
+			return musicList;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Buscar musicas por Genero.
+	 * @param genero
+	 * @return musicList
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Carlos.Pereira
+	 */
+	public List<Music> getMusicDetailsByGenero(String genero) 
+			throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.whereEqualTo("genero", genero);
+		
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		
+		QuerySnapshot document = future.get();
+		
+		if(!document.isEmpty()) {
+			List<Music> musicList = document.toObjects(Music.class);
+			return musicList;
+		} else {
+			return null;
+		}
+	}
+
 }
