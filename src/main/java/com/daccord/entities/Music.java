@@ -1,7 +1,11 @@
 package com.daccord.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.math.random.RandomDataImpl;
 
 public class Music {
 
@@ -16,9 +20,9 @@ public class Music {
 	public Music() {
 	}
 
-	public Music(String _id, String artista, String titulo, String link, String nivel, Integer music_user,
+	public Music(String artista, String titulo, String link, String nivel, Integer music_user,
 			String genero) {
-		this._id = _id;
+		this._id = geradorId();
 		this.artista = artista;
 		this.titulo = titulo;
 		this.link = link;
@@ -84,18 +88,49 @@ public class Music {
 		this.genero = genero;
 	}
 	
+	/**
+	 * Lista pre definida de generos
+	 * @return listaGenero
+	 * @author Carlos.Pereira
+	 */
 	public List<String> listaDeGenero(){
 		List<String> listaGenero = new ArrayList<String>();
 		
-		listaGenero.add("Rock");
+		listaGenero.add("Axé");
+		listaGenero.add("Blues");
+		listaGenero.add("Country");
+		listaGenero.add("Eletrônica");
+		listaGenero.add("Forró");
+		listaGenero.add("Funk");
+		listaGenero.add("Gospel");
+		listaGenero.add("Hip Hop");
+		listaGenero.add("Jazz");
+		listaGenero.add("MPB");
+		listaGenero.add("Música clássica");
+		listaGenero.add("Pagode");
 		listaGenero.add("Pop");
-		listaGenero.add("Samba");
 		listaGenero.add("Reggae");
+		listaGenero.add("Rock");
+		listaGenero.add("Samba");
 		listaGenero.add("Sertanejo");
 		
 		return listaGenero;
 	}
 
+	/**
+	 * Gerador de id automatico de 20 caracteres.
+	 * @return id
+	 * @author Carlos.Pereira
+	 */
+	public String geradorId() {
+		Date data = new Date();
+		SimpleDateFormat dataFormatada = new SimpleDateFormat("ddMMyyyy");
+		String random = new RandomDataImpl().nextSecureHexString(12);
+		String id = dataFormatada.format(data) + random;
+		
+		return  id;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
