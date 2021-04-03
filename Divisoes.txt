@@ -9,7 +9,8 @@ Criar lista padronizada de generos: Ok
 Tarefas a Fazer:
 Carlos:
     Fazer o id ser auto geravel
-    GetGeneroTotal
+    ListaGetByGenero
+    GetGeneroTotal - Obs: Fazer no FrontEnd.
 Julio:
     ListaGetByArtista
     ListaGetByTitulo
@@ -17,5 +18,4 @@ Julio:
     DeleteByID
 
 Plus:
-    ListaGetByGenero
     Sugerir add a quantidade de acordes no cadastro
