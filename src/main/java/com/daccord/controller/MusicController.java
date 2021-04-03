@@ -21,23 +21,31 @@ public class MusicController {
 	@Autowired
 	private MusicService musicService;
 	
+	@PostMapping("/add")
+	public String saveMusic(@RequestBody Music music) throws InterruptedException, ExecutionException {
+		
+		music.set_id(music.geradorId());
+		
+		return musicService.saveMusic(music);
+	}
+	
+	@GetMapping("/{id}")
+	public Music getMusicId(@PathVariable String id) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsById(id);
+	}
+	
 	@GetMapping("/all")
 	public List<Music>getAllMusic() throws InterruptedException, ExecutionException {
 		return musicService.getAllMusicDetails();
 	}
 	
-	@GetMapping("/{id}")
-	public Music getMusicId(@PathVariable String documento) throws InterruptedException, ExecutionException {
-		return musicService.getMusicDetailsById(documento);
-	}
-	
-	@PostMapping("/add")
-	public String saveMusic(@RequestBody Music music) throws InterruptedException, ExecutionException {
-		return musicService.saveMusic(music);
-	}
-	
 	@GetMapping("/nivel/{nivel}")
 	public List<Music> getMusicNivel(@PathVariable String nivel) throws InterruptedException, ExecutionException {
 		return musicService.getMusicDetailsByNivel(nivel);
+	}
+	
+	@GetMapping("/genero/{genero}")
+	public List<Music> getMusicGenero(@PathVariable String genero) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsByGenero(genero);
 	}
 }
