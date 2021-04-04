@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.apache.commons.math.random.RandomDataImpl;
 
+import com.daccord.utilities.Utilities;
+
 public class Music {
 
 	private String _id;
@@ -27,7 +29,10 @@ public class Music {
 	
 	public Music(String titulo, String artista, String genero, String album, Integer ano, String comentario,
 			String link, String nivel, Integer music_user, Integer acordes) {
-		this._id = geradorId();
+
+		Utilities util = new Utilities();
+		this._id = util.geradorId();
+		
 		this.titulo = titulo;
 		this.artista = artista;
 		this.genero = genero;
