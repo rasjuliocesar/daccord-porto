@@ -120,11 +120,11 @@ public class Music {
 		this.music_user = music_user;
 	}
 
-	public Integer getQntAcordes() {
+	public Integer getAcordes() {
 		return acordes;
 	}
 
-	public void setQntAcordes(Integer acordes) {
+	public void setAcordes(Integer acordes) {
 		this.acordes = acordes;
 	}
 
