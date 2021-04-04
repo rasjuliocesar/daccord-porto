@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daccord.entities.Music;
 import com.daccord.service.MusicService;
+import com.daccord.utilities.Utilities;
 
 @RestController
 @RequestMapping("/music")
@@ -26,7 +27,8 @@ public class MusicController {
 	@PostMapping("/add")
 	public String saveMusic(@RequestBody Music music) throws InterruptedException, ExecutionException {
 		
-		music.set_id(music.geradorId());
+		Utilities util = new Utilities();
+		music.set_id(util.geradorId());
 		
 		return musicService.saveMusic(music);
 	}
