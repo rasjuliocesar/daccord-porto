@@ -14,17 +14,19 @@ public class Music {
 	private String artista;
 	private String genero;
 	private String album;
-	private String ano;
+	private Integer ano;
 	private String comentario;
 	private String link;
 	private String nivel;
 	private Integer music_user;
+	private Integer acordes;
+	
 	
 	public Music() {
 	}
 	
-	public Music(String titulo, String artista, String genero, String album, String ano, String comentario,
-			String link, String nivel, Integer music_user) {
+	public Music(String titulo, String artista, String genero, String album, Integer ano, String comentario,
+			String link, String nivel, Integer music_user, Integer acordes) {
 		this._id = geradorId();
 		this.titulo = titulo;
 		this.artista = artista;
@@ -35,6 +37,7 @@ public class Music {
 		this.link = link;
 		this.nivel = nivel;
 		this.music_user = music_user;
+		this.acordes = acordes;
 	}
 	
 	public String get_id() {
@@ -77,11 +80,11 @@ public class Music {
 		this.album = album;
 	}
 
-	public String getAno() {
+	public Integer getAno() {
 		return ano;
 	}
 
-	public void setAno(String ano) {
+	public void setAno(Integer ano) {
 		this.ano = ano;
 	}
 
@@ -115,6 +118,14 @@ public class Music {
 
 	public void setMusic_user(Integer music_user) {
 		this.music_user = music_user;
+	}
+
+	public Integer getQntAcordes() {
+		return acordes;
+	}
+
+	public void setQntAcordes(Integer acordes) {
+		this.acordes = acordes;
 	}
 
 	/**

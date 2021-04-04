@@ -49,6 +49,11 @@ public class MusicController {
 		return musicService.getMusicDetailsByGenero(genero);
 	}
 	
+	@GetMapping("/acordes/{acordes}")
+	public List<Music> getMusicAcordes(@PathVariable Integer acordes) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsByAcordes(acordes);
+	}
+	
 	@GetMapping("/genero/qnt/{genero}")
 	public int getMusicQntGenero(@PathVariable String genero) throws InterruptedException, ExecutionException {
 		List<Music> musicas = musicService.getMusicDetailsByGenero(genero);

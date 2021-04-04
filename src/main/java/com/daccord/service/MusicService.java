@@ -156,4 +156,32 @@ public class MusicService {
 		}
 	}
 
+	/**
+	 * Buscar musicas por Acordes.
+	 * @param acordes
+	 * @return musicList
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Carlos.Pereira
+	 */
+	public List<Music> getMusicDetailsByAcordes(Integer acordes) 
+			throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.whereEqualTo("acordes", acordes);
+		
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		
+		QuerySnapshot document = future.get();
+		
+		if(!document.isEmpty()) {
+			List<Music> musicList = document.toObjects(Music.class);
+			return musicList;
+		} else {
+			return null;
+		}
+	}
+	
 }
