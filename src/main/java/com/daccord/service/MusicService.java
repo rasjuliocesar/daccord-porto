@@ -142,6 +142,62 @@ public class MusicService {
 	}
 	
 	/**
+	 * Buscar musicas por Artista.
+	 * @param artista
+	 * @return musicList
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public List<Music> getMusicDetailsByArtista(String artista) 
+			throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.whereEqualTo("artista", artista);
+		
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		
+		QuerySnapshot document = future.get();
+		
+		if(!document.isEmpty()) {
+			List<Music> musicList = document.toObjects(Music.class);
+			return musicList;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Buscar musicas por Titulo.
+	 * @param titulo
+	 * @return musicList
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public List<Music> getMusicDetailsByTitulo(String titulo) 
+			throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query documentReference = dbFirestore
+				.collection(COLLECTION_NAME)
+				.whereEqualTo("titulo", titulo);
+		
+		ApiFuture<QuerySnapshot> future = documentReference.get();
+		
+		QuerySnapshot document = future.get();
+		
+		if(!document.isEmpty()) {
+			List<Music> musicList = document.toObjects(Music.class);
+			return musicList;
+		} else {
+			return null;
+		}
+	}
+	
+	/**
 	 * Buscar musicas por Nivel.
 	 * @param nivel
 	 * @return musicList

@@ -51,6 +51,16 @@ public class MusicController {
 		return musicService.getAllMusicDetails();
 	}
 	
+	@GetMapping("/artista/{artista}")
+	public List<Music> getMusicArtista(@PathVariable String artista) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsByArtista(artista);
+	}
+	
+	@GetMapping("/titulo/{titulo}")
+	public List<Music> getMusicTitulo(@PathVariable String titulo) throws InterruptedException, ExecutionException {
+		return musicService.getMusicDetailsByTitulo(titulo);
+	}
+	
 	@GetMapping("/nivel/{nivel}")
 	public List<Music> getMusicNivel(@PathVariable String nivel) throws InterruptedException, ExecutionException {
 		return musicService.getMusicDetailsByNivel(nivel);
