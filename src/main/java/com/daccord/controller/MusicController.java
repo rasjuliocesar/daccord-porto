@@ -48,4 +48,13 @@ public class MusicController {
 	public List<Music> getMusicGenero(@PathVariable String genero) throws InterruptedException, ExecutionException {
 		return musicService.getMusicDetailsByGenero(genero);
 	}
+	
+	@GetMapping("/genero/qnt/{genero}")
+	public int getMusicQntGenero(@PathVariable String genero) throws InterruptedException, ExecutionException {
+		List<Music> musicas = musicService.getMusicDetailsByGenero(genero);
+		if(musicas != null) {
+			return musicas.size();			
+		}		
+		return 0;
+	}
 }
