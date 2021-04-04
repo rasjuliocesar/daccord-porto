@@ -24,7 +24,7 @@ public class MusicService {
 	/**
 	 * Salvar musica
 	 * @param music
-	 * @return
+	 * @return music
 	 * @throws InterruptedException
 	 * @throws ExecutionException
 	 * @author Julio.Cesar
@@ -39,6 +39,47 @@ public class MusicService {
 				.set(music);
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	/**
+	 * Update em musica com o id igual ao que ja se encontra no banco
+	 * @param music
+	 * @return music
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public String updateMusic(Music music) throws InterruptedException, ExecutionException {
+		
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore
+				.collection(COLLECTION_NAME)
+				.document(music.get_id())
+				.set(music);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	/**
+	 * Deletar musica por Id.
+	 * @param id
+	 * @return mensagem
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	@SuppressWarnings("unused")
+	public String deleteMusicById(String id) throws InterruptedException, ExecutionException {
+		
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore
+				.collection(COLLECTION_NAME)
+				.document(id)
+				.delete();
+		
+		return "Document with Product ID: " + id + " has been deleted successfully";
 	}
 	
 	/**
