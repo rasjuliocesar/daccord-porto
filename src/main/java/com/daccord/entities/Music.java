@@ -10,33 +10,47 @@ import org.apache.commons.math.random.RandomDataImpl;
 public class Music {
 
 	private String _id;
-	private String artista;
 	private String titulo;
+	private String artista;
+	private String genero;
+	private String album;
+	private String ano;
+	private String comentario;
 	private String link;
 	private String nivel;
 	private Integer music_user;
-	private String genero;
 	
 	public Music() {
 	}
-
-	public Music(String artista, String titulo, String link, String nivel, Integer music_user,
-			String genero) {
+	
+	public Music(String titulo, String artista, String genero, String album, String ano, String comentario,
+			String link, String nivel, Integer music_user) {
 		this._id = geradorId();
-		this.artista = artista;
 		this.titulo = titulo;
+		this.artista = artista;
+		this.genero = genero;
+		this.album = album;
+		this.ano = ano;
+		this.comentario = comentario;
 		this.link = link;
 		this.nivel = nivel;
 		this.music_user = music_user;
-		this.genero = genero;
 	}
-
+	
 	public String get_id() {
 		return _id;
 	}
 
 	public void set_id(String _id) {
 		this._id = _id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getArtista() {
@@ -47,12 +61,36 @@ public class Music {
 		this.artista = artista;
 	}
 
-	public String getTitulo() {
-		return titulo;
+	public String getGenero() {
+		return genero;
 	}
 
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
+	public void setGenero(String genero) {
+		this.genero = genero;
+	}
+
+	public String getAlbum() {
+		return album;
+	}
+
+	public void setAlbum(String album) {
+		this.album = album;
+	}
+
+	public String getAno() {
+		return ano;
+	}
+
+	public void setAno(String ano) {
+		this.ano = ano;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
 	}
 
 	public String getLink() {
@@ -79,15 +117,6 @@ public class Music {
 		this.music_user = music_user;
 	}
 
-	public String getGenero() {
-		
-		return genero;
-	}
-
-	public void setGenero(String genero) {
-		this.genero = genero;
-	}
-	
 	/**
 	 * Lista pre definida de generos
 	 * @return listaGenero
