@@ -1,5 +1,8 @@
 package com.daccord.utilities;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,6 +22,17 @@ public class Utilities {
 		String id = dataFormatada.format(data) + random;
 		
 		return  id;
+	}
+	
+	/*
+	 * Criptografia de String.
+	 * @return word
+	 */
+	public byte[] criptografar(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+		MessageDigest algoritmo = MessageDigest.getInstance("MD5");
+		byte[] word = algoritmo.digest(password.getBytes());
+		
+		return word;
 	}
 	
 }
