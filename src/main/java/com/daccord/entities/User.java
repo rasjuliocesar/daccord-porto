@@ -1,5 +1,8 @@
 package com.daccord.entities;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+
 import com.daccord.utilities.Utilities;
 
 public class User {
@@ -14,14 +17,14 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String login, String password, String email, String phone) {
+	public User(String name, String login, String password, String email, String phone) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		Utilities util = new Utilities();
 		this._id = util.geradorId();
+		this.password = util.criptografar(password);
 		
 		this.name = name;
 		this.login = login;
-		this.password = password;
 		this.email = email;
 		this.phone = phone;
 	}

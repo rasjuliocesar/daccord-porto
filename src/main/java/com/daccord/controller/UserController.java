@@ -1,5 +1,7 @@
 package com.daccord.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -25,10 +27,11 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping("/add")
-	public String saveUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+	public String saveUser(@RequestBody User user) throws InterruptedException, ExecutionException, NoSuchAlgorithmException, UnsupportedEncodingException {
 		
 		Utilities util = new Utilities();
 		user.set_id(util.geradorId());
+		//user.setPassword(util.criptografar(user.getPassword()));
 		
 		return userService.saveUser(user);
 	}
