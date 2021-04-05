@@ -28,9 +28,11 @@ public class Utilities {
 	 * Criptografia de String.
 	 * @return word
 	 */
-	public byte[] criptografar(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public String criptografar(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		MessageDigest algoritmo = MessageDigest.getInstance("MD5");
-		byte[] word = algoritmo.digest(password.getBytes());
+		byte[] wordByte = algoritmo.digest(password.getBytes());
+		
+		String word = new String(wordByte);
 		
 		return word;
 	}
