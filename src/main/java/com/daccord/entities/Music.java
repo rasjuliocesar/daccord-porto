@@ -131,6 +131,14 @@ public class Music {
 		this.acordes = acordes;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	/**
 	 * Lista pre definida de generos
 	 * @return listaGenero
