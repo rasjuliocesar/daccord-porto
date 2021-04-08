@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daccord.entities.Music;
+import com.daccord.entities.User;
 import com.daccord.service.MusicService;
+import com.daccord.service.UserService;
 import com.daccord.utilities.Utilities;
 
 @RestController
@@ -24,11 +26,17 @@ public class MusicController {
 	@Autowired
 	private MusicService musicService;
 	
-	@PostMapping("/add")
-	public String saveMusic(@RequestBody Music music) throws InterruptedException, ExecutionException {
+	@Autowired
+	private UserService userService;
+	
+	@PostMapping("/add/{id}")
+	public String saveMusic(@RequestBody Music music, @PathVariable String id) throws InterruptedException, ExecutionException {
 		
 		Utilities util = new Utilities();
 		music.set_id(util.geradorId());
+		
+		User user = userService.getUserDetailsById(id);
+		music.setUser(user);
 		
 		return musicService.saveMusic(music);
 	}
