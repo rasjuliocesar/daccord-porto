@@ -21,8 +21,8 @@ public class User {
 		
 		Utilities util = new Utilities();
 		this._id = util.geradorId();
-		this.password = util.criptografar(password);
-		
+		//this.password = util.criptografar(password);
+		this.password = password;
 		this.name = name;
 		this.login = login;
 		this.email = email;
