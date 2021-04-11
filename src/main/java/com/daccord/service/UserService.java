@@ -72,10 +72,51 @@ public class UserService {
 		}
 	}
 	
+	/**
+	 * Salvar User
+	 * @param user
+	 * @return String user
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public String addUser(User user) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(user.get_id()).set(user);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
 	
+	/**
+	 * Deletar User por Id.
+	 * @param id
+	 * @return mensagem
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	@SuppressWarnings("unused")
+	public String deleteUserById(String id) {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();
+		
+		return "User ID: " + id + " deleted";
+	}
 	
-	
-	
-	
-	
+	/**
+	 * @param User
+	 * @return String user
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public String updateUser(User user) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(user.get_id()).set(user);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
 }
