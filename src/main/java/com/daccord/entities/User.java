@@ -1,5 +1,7 @@
 package com.daccord.entities;
 
+import com.daccord.utils.Utils;
+
 public class User {
 
 	private String _id;
@@ -11,7 +13,10 @@ public class User {
 	}
 	
 	public User(String _id, String name, String email, String password) {
-		this._id = _id;
+		
+		Utils util = new Utils();
+		this._id = util.geradorId();
+		
 		this.name = name;
 		this.email = email;
 		this.password = password;
