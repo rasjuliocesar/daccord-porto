@@ -5,8 +5,8 @@ import com.daccord.utils.Utils;
 public class Artist {
 
 	private String _id;
-	private String artistGenre;
-	private String artistName;
+	private String artist_genre;
+	private String artist_name;
 	
 	public Artist() {
 	}
@@ -16,8 +16,8 @@ public class Artist {
 		Utils util = new Utils();
 		this._id = util.geradorId();
 		
-		this.artistGenre = artistGenre;
-		this.artistName = artistName;
+		this.artist_genre = artistGenre;
+		this.artist_name = artistName;
 	}
 
 	public String get_id() {
@@ -28,20 +28,20 @@ public class Artist {
 		this._id = _id;
 	}
 
-	public String getArtistGenre() {
-		return artistGenre;
+	public String getArtist_genre() {
+		return artist_genre;
 	}
 
-	public void setArtistGenre(String artistGenre) {
-		this.artistGenre = artistGenre;
+	public void setArtist_genre(String artistGenre) {
+		this.artist_genre = artistGenre;
 	}
 
-	public String getArtistName() {
-		return artistName;
+	public String getArtist_name() {
+		return artist_name;
 	}
 
-	public void setArtistName(String artistName) {
-		this.artistName = artistName;
+	public void setArtist_name(String artistName) {
+		this.artist_name = artistName;
 	}
 
 	@Override
