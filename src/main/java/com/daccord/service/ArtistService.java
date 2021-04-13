@@ -71,4 +71,52 @@ public class ArtistService {
 			return null;
 		}
 	}
+	
+	/**
+	 * Salvar Artist
+	 * @param artist
+	 * @return String artist
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public String addArtist(Artist artist) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(artist.get_id()).set(artist);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	/**
+	 * Deletar Artist por Id.
+	 * @param id
+	 * @return mensagem
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	@SuppressWarnings("unused")
+	public String deleteArtistById(String id) {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();
+		
+		return "Artist ID: " + id + " deleted";
+	}
+	
+	/**
+	 * @param Artist
+	 * @return String artist
+	 * @throws InterruptedException
+	 * @throws ExecutionException
+	 * @author Julio.Cesar
+	 */
+	public String updateArtist(Artist artist) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(artist.get_id()).set(artist);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
 }
