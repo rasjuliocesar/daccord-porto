@@ -7,7 +7,9 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
+import com.daccord.entities.Log;
 import com.daccord.entities.User;
+import com.daccord.utils.Utils;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -20,6 +22,9 @@ import com.google.firebase.cloud.FirestoreClient;
 public class UserService {
 
 	private static final String COLLECTION_NAME = "user";
+	private static final String COLLECTION_NAME_LOG = "log";
+	
+	Utils util = new Utils();
 	
 	/**
 	 * Buscar todos os Users.
@@ -80,10 +85,14 @@ public class UserService {
 	 * @throws ExecutionException
 	 * @author Julio.Cesar
 	 */
+	@SuppressWarnings("unused")
 	public String addUser(User user) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(user.get_id()).set(user);
+		
+		Log log = util.geradorLog(COLLECTION_NAME, 1);
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFutureLog = dbFirestore.collection(COLLECTION_NAME_LOG).document(log.get_id()).set(log);
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
@@ -102,6 +111,9 @@ public class UserService {
 		
 		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();
 		
+		Log log = util.geradorLog(COLLECTION_NAME, 4);
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFutureLog = dbFirestore.collection(COLLECTION_NAME_LOG).document(log.get_id()).set(log);
+		
 		return "User ID: " + id + " deleted";
 	}
 	
@@ -112,10 +124,14 @@ public class UserService {
 	 * @throws ExecutionException
 	 * @author Julio.Cesar
 	 */
+	@SuppressWarnings("unused")
 	public String updateUser(User user) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(user.get_id()).set(user);
+		
+		Log log = util.geradorLog(COLLECTION_NAME, 3);
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFutureLog = dbFirestore.collection(COLLECTION_NAME_LOG).document(log.get_id()).set(log);
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}

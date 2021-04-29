@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.apache.commons.math.random.RandomDataImpl;
 
+import com.daccord.entities.Log;
+
 public class Utils {
 
 	/**
@@ -19,5 +21,35 @@ public class Utils {
 		String id = dataFormatada.format(data) + random;
 		
 		return  id;
+	}
+	
+	/**
+	 * Gerar objeto Log para inserção no Banco
+	 * @param collection
+	 * @param type
+	 * @return log
+	 */
+	public Log geradorLog(String collection, Integer type) {
+		String id = geradorId();
+		String description = "";
+		
+		switch(type) {
+			case 1:
+				description = "create";
+				break;
+			case 2:
+				description = "read";
+				break;
+			case 3:
+				description = "update";
+				break;
+			case 4:
+				description = "delete";
+				break;
+		}
+		
+		Log log = new Log(id, description, "Padrão", collection);
+	
+		return log;
 	}
 }
