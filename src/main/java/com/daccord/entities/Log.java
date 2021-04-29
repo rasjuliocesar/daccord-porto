@@ -6,7 +6,7 @@ import com.google.cloud.Timestamp;
 public class Log {
 
 	private String _id;
-	private Timestamp createdAt;
+	//private Timestamp createdAt;
 	private String description;
 	private String userId;
 	private String collection;
@@ -14,12 +14,12 @@ public class Log {
 	public Log() {
 	}
 
-	public Log(String _id, Timestamp createdAt, String description, String userId, String collection) {
+	public Log(String _id, /*Timestamp createdAt,*/ String description, String userId, String collection) {
 
 		Utils util = new Utils();
 		this._id = util.geradorId();
 		
-		this.createdAt = createdAt;
+		//this.createdAt = createdAt;
 		this.description = description;
 		this.userId = userId;
 		this.collection = collection;
@@ -33,13 +33,13 @@ public class Log {
 		this._id = _id;
 	}
 
-	public Timestamp getCreatedAt() {
+	/*public Timestamp getCreatedAt() {
 		return createdAt;
 	}
 
 	public void setCreatedAt(Timestamp createdAt) {
 		this.createdAt = createdAt;
-	}
+	}*/
 
 	public String getDescription() {
 		return description;
