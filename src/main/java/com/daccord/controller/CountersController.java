@@ -19,9 +19,13 @@ public class CountersController {
 	@Autowired
 	private CountersService countersService;
 	
-	@GetMapping("/all")
+	/*@GetMapping("/all")
 	public List<QueryDocumentSnapshot> getAllGenre() throws InterruptedException, ExecutionException {
 		return countersService.getAllGenre();
-	}
+	}*/
 
+	@GetMapping("/all")
+	public List<Counters> getAllGenre() throws InterruptedException, ExecutionException {
+		return countersService.getAllGenre();
+	}
 }
