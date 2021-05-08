@@ -55,6 +55,7 @@ public class ArtistsService {
 		} else {
 			return null;
 		}
+		
 	}
 		
 	public String addArtist(Artists artist) throws InterruptedException, ExecutionException {

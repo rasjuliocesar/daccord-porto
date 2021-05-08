@@ -67,7 +67,6 @@ public class ArtistsController {
 			return e.getMessage();
 		}
 		
-		
 		return artistsService.updateArtist(update);
 	}
 }
