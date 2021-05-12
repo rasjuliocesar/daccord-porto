@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daccord.entities.User;
 import com.daccord.service.UserService;
+import com.daccord.utils.Utils;
 
 @RestController
 @RequestMapping("/user")
@@ -28,19 +29,22 @@ public class UserController {
 		return userService.getAllUser();
 	}
 	
-	@GetMapping("/{name}")
-	public User getUserByName(@PathVariable String name) throws InterruptedException, ExecutionException {
-		return userService.getUserByName(name);
+	@GetMapping("/{id}")
+	public User getUserById(@PathVariable String id) throws InterruptedException, ExecutionException {
+		return userService.getUserById(id);
 	}
 	
 	@PostMapping("/add")
 	public String addUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+		Utils util = new Utils();
+		user.set_id(util.geradorId());
+		
 		return userService.addUser(user);
 	}
 	
-	@DeleteMapping("/delete/{name}")
-	public String deleteUser(String name) {
-		return userService.deleteUserByName(name);
+	@DeleteMapping("/delete/{id}")
+	public String deleteUser(@PathVariable String id) {
+		return userService.deleteUserById(id);
 	}
 	
 	@PutMapping("update")

@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutionException;
 import org.springframework.stereotype.Service;
 
 import com.daccord.entities.Artists;
+import com.daccord.utils.Utils;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -21,13 +22,15 @@ public class ArtistsService {
 
 	private static final String COLLECTION_NAME = "artists";
 	
+	Utils util = new Utils();
+	
 	public List<Artists> getAllArtist() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		Iterable<DocumentReference> docReference = dbFirestore.collection(COLLECTION_NAME).listDocuments();
 		Iterator<DocumentReference> iterator = docReference.iterator();
 		
-		List<Artists> artistsList = new ArrayList<>();
+		List<Artists> artistList = new ArrayList<>();
 		Artists artist = null;
 		
 		while(iterator.hasNext()) {
@@ -36,15 +39,15 @@ public class ArtistsService {
 			DocumentSnapshot doc = future.get();
 			
 			artist = doc.toObject(Artists.class);
-			artistsList.add(artist);
+			artistList.add(artist);
 		}
-		return artistsList;
+		return artistList;
 	}
 	
-	public Artists getArtistByName(String name) throws InterruptedException, ExecutionException {
+	public Artists getArtistById(String id) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("artist_name", name);
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", id);
 		ApiFuture<QuerySnapshot> future = docReference.get();
 		
 		QuerySnapshot doc = future.get();
@@ -55,30 +58,29 @@ public class ArtistsService {
 		} else {
 			return null;
 		}
-		
 	}
-		
+	
 	public String addArtist(Artists artist) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<DocumentReference> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).add(artist);
-		
-		return collectionApiFuture.get().getId().toString();
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(artist.get_id()).set(artist);
+
+		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
 	@SuppressWarnings("unused")
-	public String deleteArtistByName(String name) {
+	public String deleteArtistById(String id) {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(name).delete();
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();
 		
-		return "Artist Name: " + name + " deleted";
+		return "Artist ID: " + id + " deleted";
 	}
 	
 	public String updateArtist(Artists artist) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(artist.getArtist_name()).set(artist);
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(artist.get_id()).set(artist);
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}

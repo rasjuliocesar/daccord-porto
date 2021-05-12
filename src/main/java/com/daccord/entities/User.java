@@ -1,7 +1,10 @@
 package com.daccord.entities;
 
+import com.daccord.utils.Utils;
+
 public class User {
 
+	private String _id;
 	private String name;
 	private String email;
 	private String password;
@@ -9,13 +12,24 @@ public class User {
 	public User() {
 	}
 
-	public User(String name, String email, String password) {
-		super();
+	public User(String _id, String name, String email, String password) {
+		
+		Utils util = new Utils();
+		this._id = util.geradorId();
+		
 		this.name = name;
 		this.email = email;
 		this.password = password;
 	}
+	
+	public String get_id() {
+		return this._id;
+	}
 
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -44,7 +58,7 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
 		return result;
 	}
 
@@ -57,10 +71,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
+		if (_id == null) {
+			if (other._id != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!_id.equals(other._id))
 			return false;
 		return true;
 	}

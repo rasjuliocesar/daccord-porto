@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daccord.entities.Artists;
 import com.daccord.service.ArtistsService;
+import com.daccord.utils.Utils;
 
 @RestController
 @RequestMapping("/artists")
@@ -28,45 +29,26 @@ public class ArtistsController {
 		return artistsService.getAllArtist();
 	}
 	
-	@GetMapping("/{name}")
-	public Artists getArtistByName(@PathVariable String name) throws InterruptedException, ExecutionException {
-		return artistsService.getArtistByName(name);
+	@GetMapping("/{id}")
+	public Artists getArtistById(@PathVariable String id) throws InterruptedException, ExecutionException {
+		return artistsService.getArtistById(id);
 	}
-		
+	
 	@PostMapping("/add")
-	public String addArtist(@RequestBody Artists artist) throws InterruptedException, ExecutionException {		
+	public String addArtist(@RequestBody Artists artist) throws InterruptedException, ExecutionException {
+		Utils util = new Utils();
+		artist.set_id(util.geradorId());
+		
 		return artistsService.addArtist(artist);
 	}
 	
-	@DeleteMapping("/delete/{name}")
-	public String deleteArtistByName(@PathVariable String name) throws InterruptedException, ExecutionException {
-		
-		Artists artist = artistsService.getArtistByName(name);
-		
-		try {
-			if(artist.equals(null)) {
-				return "Artist does not exists!";
-			}
-		} catch(NullPointerException e) {
-			return e.getMessage();
-		}
-		
-		return artistsService.deleteArtistByName(name);
+	@DeleteMapping("/delete/{id}")
+	public String deleteArtist(@PathVariable String id) {
+		return artistsService.deleteArtistById(id);
 	}
 	
 	@PutMapping("/update")
-	public String updateArtist(@RequestBody Artists update) throws InterruptedException, ExecutionException {
-		
-		Artists artists = artistsService.getArtistByName(update.getArtist_name());
-		
-		try {
-			if(artists.getArtist_name().equals(null)) {
-				return "Artist does not exists!";
-			}
-		} catch(NullPointerException e) {
-			return e.getMessage();
-		}
-		
-		return artistsService.updateArtist(update);
+	public String updateArtist(@RequestBody Artists artist) throws InterruptedException, ExecutionException {
+		return artistsService.updateArtist(artist);
 	}
 }

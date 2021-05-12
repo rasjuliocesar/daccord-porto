@@ -1,16 +1,31 @@
 package com.daccord.entities;
 
+import com.daccord.utils.Utils;
+
 public class Artists {
 
+	private String _id;
 	private String artist_name;
 	private String artist_genre;
 	
 	public Artists() {
 	}
 
-	public Artists(String artist_name, String artist_genre) {
+	public Artists(String _id, String artist_name, String artist_genre) {
+		
+		Utils util = new Utils();
+		this._id = util.geradorId();
+		
 		this.artist_name = artist_name;
 		this.artist_genre = artist_genre;
+	}
+	
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 
 	public String getArtist_name() {
@@ -33,7 +48,7 @@ public class Artists {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((artist_name == null) ? 0 : artist_name.hashCode());
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
 		return result;
 	}
 
@@ -46,10 +61,10 @@ public class Artists {
 		if (getClass() != obj.getClass())
 			return false;
 		Artists other = (Artists) obj;
-		if (artist_name == null) {
-			if (other.artist_name != null)
+		if (_id == null) {
+			if (other._id != null)
 				return false;
-		} else if (!artist_name.equals(other.artist_name))
+		} else if (!_id.equals(other._id))
 			return false;
 		return true;
 	}
