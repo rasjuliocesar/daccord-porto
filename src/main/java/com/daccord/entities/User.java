@@ -8,11 +8,13 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
+	private Boolean active;
+	private Integer userLogin;
 	
 	public User() {
 	}
 
-	public User(String _id, String name, String email, String password) {
+	public User(String _id, String name, String email, String password, Boolean active, Integer userLogin) {
 		
 		Utils util = new Utils();
 		this._id = util.geradorId();
@@ -20,6 +22,8 @@ public class User {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+		this.active = active;
+		this.userLogin = userLogin;
 	}
 	
 	public String get_id() {
@@ -52,6 +56,22 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Integer getUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(Integer userLogin) {
+		this.userLogin = userLogin;
 	}
 
 	@Override
