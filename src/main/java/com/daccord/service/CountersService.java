@@ -1,29 +1,56 @@
 package com.daccord.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
-import com.daccord.entities.Artists;
 import com.daccord.entities.Counters;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
-import com.google.firebase.database.DataSnapshot;
 
 @Service
 public class CountersService {
 
 	private static final String COLLECTION_NAME = "counters";
+	
+	public Counters getCountersById(String id) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", id);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		
+		QuerySnapshot doc = future.get();
+		
+		if(!doc.isEmpty()) {
+			Counters count= doc.toObjects(Counters.class).get(0);
+			return count;
+		} else {
+			return null;
+		}
+	}
+	
+	public String updateCounters(String field, Integer value) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		//ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document("Bp1IsLTDVtUfa4fAfC7C").update(field, value, 0);
+		
+		
+		// Update an existing document
+		DocumentReference docRef = dbFirestore.collection(COLLECTION_NAME).document("Bp1IsLTDVtUfa4fAfC7C");
+
+		// (async) Update one field
+		ApiFuture<WriteResult> future = docRef.update(field, value);
+		
+		
+		
+		
+		return future.get().getUpdateTime().toString();
+	}
 	
 	/*@SuppressWarnings("unchecked")
 	public HashMap<Integer, Integer> getAllGenre() throws InterruptedException, ExecutionException {
@@ -103,7 +130,7 @@ public class CountersService {
 		return (List<Counters>) count;
 	}*/
 
-	public List<Counters> getAllGenre() throws InterruptedException, ExecutionException {
+	/*public List<Counters> getAllGenre() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		@SuppressWarnings("unchecked")
@@ -126,6 +153,6 @@ public class CountersService {
 			count.add(counters);
 		}
 		return count;
-	}
+	}*/
 
 }

@@ -1,23 +1,75 @@
 package com.daccord.entities;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Counters {
 
+	private String _id;
+	private Integer users;
+	private Integer artists;
+	
+	public Counters() {
+	}
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
+	public Integer getUsers() {
+		return users;
+	}
+
+	public void setUsers(Integer users) {
+		this.users = users;
+	}
+
+	public Integer getArtists() {
+		return artists;
+	}
+
+	public void setArtists(Integer artists) {
+		this.artists = artists;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((_id == null) ? 0 : _id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Counters other = (Counters) obj;
+		if (_id == null) {
+			if (other._id != null)
+				return false;
+		} else if (!_id.equals(other._id))
+			return false;
+		return true;
+	}
+	
+	
+	
 	/*private HashMap<Integer, Integer>  nivel = new HashMap<>();
 	private HashMap<Integer, Integer> chords = new HashMap<>();
 	private HashMap<Integer, Integer> genre = new HashMap<>();
 	private HashMap<String, Integer> artist = new HashMap<>();*/
 	
-	private String values;
+	/*private String values;
 	private Integer value;
-	private Integer key;
-	
-	public Counters() {
-	}
+	private Integer key;*/
 
-	public String getValues() {
+	/*public String getValues() {
 		return values;
 	}
 
@@ -55,7 +107,7 @@ public class Counters {
         result.put(value, value);
 
         return result;
-    }
+    }*/
 
 	/*public HashMap<Integer, Integer> getNivel() {
 		return nivel;
