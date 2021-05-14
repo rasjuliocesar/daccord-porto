@@ -1,0 +1,21 @@
+GetbyDocument = buscar por id: Ok
+GetAll: Ok 
+    Obs: criar metodo para o tamanho da lista de musicas no FrontEnd.
+GetByNivel = retuna a lista: Ok. 
+    Obs: criar metodo para o tamanho da lista de nivel no FrontEnd.
+SaveMusic(post): Ok
+Criar lista padronizada de generos: Ok
+
+Tarefas a Fazer:
+Carlos:
+    Fazer o id ser auto geravel: Ok
+    ListaGetByGenero: Ok
+    GetGeneroTotal: Ok
+Julio:
+    ListaGetByArtista: Ok
+    ListaGetByTitulo: Ok
+    PutByID: Ok
+    DeleteByID: Ok
+
+Plus:
+    Sugerir add a quantidade de acordes no cadastro: Ok
