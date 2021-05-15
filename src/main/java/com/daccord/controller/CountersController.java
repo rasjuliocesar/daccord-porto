@@ -4,8 +4,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,18 +19,26 @@ public class CountersController {
 	@Autowired
 	private CountersService countersService;
 	
-	/*@GetMapping("/all")
-	public List<QueryDocumentSnapshot> getAllGenre() throws InterruptedException, ExecutionException {
-		return countersService.getAllGenre();
-	}*/
-
 	@GetMapping("/{id}")
-	public Counters getCountersById(String id) throws InterruptedException, ExecutionException {
+	public Counters getCountersById(@PathVariable String id) throws InterruptedException, ExecutionException {
 		return countersService.getCountersById(id);
 	}
 	
-	@PutMapping("/update")
-	public String updateCounters(@RequestBody String field, Integer value) throws InterruptedException, ExecutionException {
-		return countersService.updateCounters(field, value);
+	@PutMapping("/increment")
+	public String incrementCountersArtists() throws InterruptedException, ExecutionException {
+		return countersService.incrementCountersArtists();
 	}
+	
+	@PutMapping("/decrement")
+	public String decrementCountersArtists() throws InterruptedException, ExecutionException {
+		return countersService.decrementCountersArtists();
+	}
+	
+	@PutMapping("/increment/nivel/{key}")
+	public String incrementCountersNivel(@PathVariable String key) throws InterruptedException, ExecutionException {
+		return countersService.incrementCountersNivel(key);
+	}
+	
+	
+	
 }

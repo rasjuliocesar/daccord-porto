@@ -1,10 +1,14 @@
 package com.daccord.entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Counters {
 
 	private String _id;
 	private Integer users;
 	private Integer artists;
+	private Map<String, Integer>  nivel = new HashMap<>();
 	
 	public Counters() {
 	}
@@ -31,6 +35,14 @@ public class Counters {
 
 	public void setArtists(Integer artists) {
 		this.artists = artists;
+	}
+
+	public Map<String, Integer> getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(Map<String, Integer> nivel) {
+		this.nivel = nivel;
 	}
 
 	@Override

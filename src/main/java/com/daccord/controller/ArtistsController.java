@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daccord.entities.Artists;
 import com.daccord.service.ArtistsService;
+import com.daccord.service.CountersService;
 import com.daccord.utils.Utils;
 
 @RestController
@@ -23,6 +24,8 @@ public class ArtistsController {
 
 	@Autowired
 	private ArtistsService artistsService;
+	@Autowired
+	private CountersService countersService;
 	
 	@GetMapping("/all")
 	public List<Artists> getAllArtist() throws InterruptedException, ExecutionException {
@@ -39,11 +42,19 @@ public class ArtistsController {
 		Utils util = new Utils();
 		artist.set_id(util.geradorId());
 		
-		return artistsService.addArtist(artist);
+		String result = artistsService.addArtist(artist);
+		
+		if(result != null) {
+			countersService.incrementCountersArtists();			
+		}
+		
+		return result;
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public String deleteArtist(@PathVariable String id) {
+	public String deleteArtist(@PathVariable String id) throws InterruptedException, ExecutionException {
+		countersService.decrementCountersArtists();
+	
 		return artistsService.deleteArtistById(id);
 	}
 	

@@ -6,17 +6,16 @@ import org.springframework.stereotype.Service;
 
 import com.daccord.entities.Counters;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
 @Service
 public class CountersService {
 
 	private static final String COLLECTION_NAME = "counters";
+	private static final String ID = "Bp1IsLTDVtUfa4fAfC7C";
 	
 	public Counters getCountersById(String id) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -27,29 +26,57 @@ public class CountersService {
 		QuerySnapshot doc = future.get();
 		
 		if(!doc.isEmpty()) {
-			Counters count= doc.toObjects(Counters.class).get(0);
+			Counters count = doc.toObjects(Counters.class).get(0);
 			return count;
 		} else {
 			return null;
 		}
 	}
 	
-	public String updateCounters(String field, Integer value) throws InterruptedException, ExecutionException {
+	public String incrementCountersArtists() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		//ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document("Bp1IsLTDVtUfa4fAfC7C").update(field, value, 0);
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", ID);
+		ApiFuture<QuerySnapshot> future = docReference.get();
 		
+		QuerySnapshot doc = future.get();
+		Counters count = doc.toObjects(Counters.class).get(0);
+		count.setArtists(count.getArtists() + 1);
 		
-		// Update an existing document
-		DocumentReference docRef = dbFirestore.collection(COLLECTION_NAME).document("Bp1IsLTDVtUfa4fAfC7C");
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(ID).set(count);
 
-		// (async) Update one field
-		ApiFuture<WriteResult> future = docRef.update(field, value);
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	public String decrementCountersArtists() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", ID);
+		ApiFuture<QuerySnapshot> future = docReference.get();
 		
+		QuerySnapshot doc = future.get();
+		Counters count = doc.toObjects(Counters.class).get(0);
+		count.setArtists(count.getArtists() - 1);
 		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(ID).set(count);
+
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	public String incrementCountersNivel(String key) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		return future.get().getUpdateTime().toString();
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", ID);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		
+		QuerySnapshot doc = future.get();
+		Counters count = doc.toObjects(Counters.class).get(0);
+		
+		count.getNivel().put(key, count.getNivel().get(key).intValue() + 1);
+				
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(ID).set(count);
+
+		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
 	/*@SuppressWarnings("unchecked")

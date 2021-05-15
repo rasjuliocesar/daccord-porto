@@ -61,10 +61,16 @@ public class ArtistsService {
 	}
 	
 	public String addArtist(Artists artist) throws InterruptedException, ExecutionException {
+		if(artist.getArtist_genre() == null || artist.getArtist_name() == null ||
+				artist.getArtist_genre().equals("") || artist.getArtist_name().equals("")) {
+			return null;
+		}
+				
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(artist.get_id()).set(artist);
-
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = 
+				dbFirestore.collection(COLLECTION_NAME).document(artist.get_id()).set(artist);				
+		
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
