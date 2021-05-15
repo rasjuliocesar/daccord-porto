@@ -74,8 +74,14 @@ public class ArtistsService {
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
-	@SuppressWarnings("unused")
-	public String deleteArtistById(String id) {
+	@SuppressWarnings({ "unused" })
+	public String deleteArtistById(String id) throws InterruptedException, ExecutionException {
+		Artists artista = getArtistById(id);
+		
+		if(artista == null) {
+			return "ID: " + id + " não existe!";
+		}
+		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();

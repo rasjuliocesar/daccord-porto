@@ -24,12 +24,12 @@ public class CountersController {
 		return countersService.getCountersById(id);
 	}
 	
-	@PutMapping("/increment")
+	@PutMapping("/increment/artist")
 	public String incrementCountersArtists() throws InterruptedException, ExecutionException {
 		return countersService.incrementCountersArtists();
 	}
 	
-	@PutMapping("/decrement")
+	@PutMapping("/decrement/artist")
 	public String decrementCountersArtists() throws InterruptedException, ExecutionException {
 		return countersService.decrementCountersArtists();
 	}
@@ -39,6 +39,13 @@ public class CountersController {
 		return countersService.incrementCountersNivel(key);
 	}
 	
+	//@PutMapping("/decrement/nivel/{key}") - A Fazer
 	
+	@PutMapping("/increment/chords/{value}")
+	public String incrementCountersChords(@PathVariable String value) throws InterruptedException, ExecutionException {
+		return countersService.incrementCountersChords(value);
+	}
+	
+	//@PutMapping("/decrement/chords/{value}")
 	
 }

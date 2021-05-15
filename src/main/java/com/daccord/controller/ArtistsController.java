@@ -53,9 +53,13 @@ public class ArtistsController {
 	
 	@DeleteMapping("/delete/{id}")
 	public String deleteArtist(@PathVariable String id) throws InterruptedException, ExecutionException {
-		countersService.decrementCountersArtists();
+		String result = artistsService.deleteArtistById(id);
+		
+		if(result != null) {
+			countersService.decrementCountersArtists();			
+		}
 	
-		return artistsService.deleteArtistById(id);
+		return result;
 	}
 	
 	@PutMapping("/update")

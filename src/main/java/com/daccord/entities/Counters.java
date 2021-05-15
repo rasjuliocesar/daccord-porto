@@ -9,6 +9,8 @@ public class Counters {
 	private Integer users;
 	private Integer artists;
 	private Map<String, Integer>  nivel = new HashMap<>();
+	private Map<String, Integer>  chords = new HashMap<>();
+	private Map<String, Integer>  genre = new HashMap<>();
 	
 	public Counters() {
 	}
@@ -43,6 +45,22 @@ public class Counters {
 
 	public void setNivel(Map<String, Integer> nivel) {
 		this.nivel = nivel;
+	}
+	
+	public Map<String, Integer> getChords() {
+		return chords;
+	}
+
+	public void setChords(Map<String, Integer> chords) {
+		this.chords = chords;
+	}
+
+	public Map<String, Integer> getGenre() {
+		return genre;
+	}
+
+	public void setGenre(Map<String, Integer> genre) {
+		this.genre = genre;
 	}
 
 	@Override
