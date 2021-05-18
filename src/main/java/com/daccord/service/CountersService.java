@@ -108,4 +108,34 @@ public class CountersService {
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
+	public String incrementCountersSong() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", ID);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		
+		QuerySnapshot doc = future.get();
+		Counters count = doc.toObjects(Counters.class).get(0);
+		count.setSong(count.getSong() + 1);
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(ID).set(count);
+
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	public String decrementCountersSong() throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("_id", ID);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		
+		QuerySnapshot doc = future.get();
+		Counters count = doc.toObjects(Counters.class).get(0);
+		count.setSong(count.getSong() - 1);
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(ID).set(count);
+
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
 }

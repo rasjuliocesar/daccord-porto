@@ -48,4 +48,14 @@ public class CountersController {
 	
 	//@PutMapping("/decrement/chords/{value}")
 	
+	@PutMapping("/increment/song")
+	public String incrementCountersSong() throws InterruptedException, ExecutionException {
+		return countersService.incrementCountersSong();
+	}
+	
+	@PutMapping("/decrement/song")
+	public String decrementCountersSong() throws InterruptedException, ExecutionException {
+		return countersService.decrementCountersSong();
+	}
+	
 }

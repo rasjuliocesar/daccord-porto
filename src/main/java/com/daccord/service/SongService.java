@@ -58,4 +58,40 @@ public class SongService {
 		
 		return null;
 	}
+	
+	public String addSong(Song song) throws InterruptedException, ExecutionException {
+		if(song.getArtist() == null || song.getTitle() == null ||
+				song.getArtist().equals("") || song.getTitle().equals("")) {
+			return null;
+		}
+				
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(song.get_id()).set(song);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
+	
+	@SuppressWarnings("unused")
+	public String deleteSongById(String id) throws InterruptedException, ExecutionException {
+		Song song= getSongById(id);
+		
+		if(song == null) {
+			return "ID: " + id + " não existe!";
+		}
+		
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();
+		
+		return "Song ID: " + id + " deleted";
+	}
+	
+	public String updateSong(Song song) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(song.get_id()).set(song);
+		
+		return collectionApiFuture.get().getUpdateTime().toString();
+	}
 }

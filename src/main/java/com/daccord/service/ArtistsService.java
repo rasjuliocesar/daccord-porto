@@ -96,4 +96,20 @@ public class ArtistsService {
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
+	
+	/*public String getNameArtistById(String name) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("artist_name", name);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		
+		QuerySnapshot doc = future.get();
+		
+		if(!doc.isEmpty()) {
+			Artists artist = doc.toObjects(Artists.class).get(0);
+			return artist.get_id();
+		} else {
+			return "0";
+		}
+	}*/
 }

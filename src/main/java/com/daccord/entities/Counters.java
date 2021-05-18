@@ -8,6 +8,7 @@ public class Counters {
 	private String _id;
 	private Integer users;
 	private Integer artists;
+	private Integer song;
 	private Map<String, Integer>  nivel = new HashMap<>();
 	private Map<String, Integer>  chords = new HashMap<>();
 	private Map<String, Integer>  genre = new HashMap<>();
@@ -37,6 +38,14 @@ public class Counters {
 
 	public void setArtists(Integer artists) {
 		this.artists = artists;
+	}
+
+	public Integer getSong() {
+		return song;
+	}
+
+	public void setSong(Integer song) {
+		this.song = song;
 	}
 
 	public Map<String, Integer> getNivel() {

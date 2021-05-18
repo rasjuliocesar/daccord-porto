@@ -1,5 +1,8 @@
 package com.daccord.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.daccord.utils.Utils;
 
 public class Song {
@@ -11,7 +14,7 @@ public class Song {
 	private Integer genre;
 	private String link_audio;
 	private String title;
-	//Matriz time_signature;
+	private List<Integer> time_signature = new ArrayList<>();
 	
 	public Song() {
 	}
@@ -82,6 +85,14 @@ public class Song {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public List<Integer> getTime_signature() {
+		return time_signature;
+	}
+
+	public void setTime_signature(List<Integer> time_signature) {
+		this.time_signature = time_signature;
 	}
 
 	@Override
