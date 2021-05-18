@@ -15,6 +15,7 @@ import com.google.firebase.FirebaseOptions;
 @Service
 public class FirebaseInit {
 
+	@SuppressWarnings("deprecation")
 	@PostConstruct
 	public void initialization() throws IOException {
 

@@ -77,7 +77,7 @@ public class SongService {
 		Song song= getSongById(id);
 		
 		if(song == null) {
-			return "ID: " + id + " não existe!";
+			return null;
 		}
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();

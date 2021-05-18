@@ -67,8 +67,8 @@ public class ArtistsController {
 		return artistsService.updateArtist(artist);
 	}
 	
-	/*@GetMapping("/{name}")
+	@GetMapping("nameart/{name}")
 	public String getNameArtistById(@PathVariable String name) throws InterruptedException, ExecutionException {
 		return artistsService.getNameArtistById(name);
-	}*/
+	}
 }

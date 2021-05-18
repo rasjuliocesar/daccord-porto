@@ -79,7 +79,7 @@ public class ArtistsService {
 		Artists artista = getArtistById(id);
 		
 		if(artista == null) {
-			return "ID: " + id + " não existe!";
+			return null;
 		}
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -97,7 +97,7 @@ public class ArtistsService {
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
-	/*public String getNameArtistById(String name) throws InterruptedException, ExecutionException {
+	public String getNameArtistById(String name) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("artist_name", name);
@@ -111,5 +111,5 @@ public class ArtistsService {
 		} else {
 			return "0";
 		}
-	}*/
+	}
 }
