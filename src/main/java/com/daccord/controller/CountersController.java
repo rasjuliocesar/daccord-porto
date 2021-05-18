@@ -39,14 +39,20 @@ public class CountersController {
 		return countersService.incrementCountersNivel(key);
 	}
 	
-	//@PutMapping("/decrement/nivel/{key}") - A Fazer
+	@PutMapping("/decrement/nivel/{key}")
+	public String decrementCountersNivel(@PathVariable String key) throws InterruptedException, ExecutionException {
+		return countersService.decrementCountersNivel(key);
+	}
 	
 	@PutMapping("/increment/chords/{value}")
 	public String incrementCountersChords(@PathVariable String value) throws InterruptedException, ExecutionException {
 		return countersService.incrementCountersChords(value);
 	}
 	
-	//@PutMapping("/decrement/chords/{value}")
+	@PutMapping("/decrement/chords/{value}")
+	public String decrementCountersChords(@PathVariable String value) throws InterruptedException, ExecutionException {
+		return countersService.decrementCountersChords(value);
+	}
 	
 	@PutMapping("/increment/song")
 	public String incrementCountersSong() throws InterruptedException, ExecutionException {
