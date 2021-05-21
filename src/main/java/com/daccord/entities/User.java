@@ -9,12 +9,12 @@ public class User {
 	private String email;
 	private String password;
 	private Boolean active;
-	private Integer userLogin;
+	private Boolean admin;
 	
 	public User() {
 	}
 
-	public User(String _id, String name, String email, String password, Boolean active, Integer userLogin) {
+	public User(String _id, String name, String email, String password, Boolean active, Boolean admin) {
 		
 		Utils util = new Utils();
 		this._id = util.geradorId();
@@ -23,7 +23,7 @@ public class User {
 		this.email = email;
 		this.password = password;
 		this.active = active;
-		this.userLogin = userLogin;
+		this.admin = admin;
 	}
 	
 	public String get_id() {
@@ -66,12 +66,12 @@ public class User {
 		this.active = active;
 	}
 
-	public Integer getUserLogin() {
-		return userLogin;
+	public Boolean getAdmin() {
+		return admin;
 	}
 
-	public void setUserLogin(Integer userLogin) {
-		this.userLogin = userLogin;
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 
 	@Override
