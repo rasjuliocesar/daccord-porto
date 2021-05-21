@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daccord.entities.User;
+import com.daccord.service.CountersService;
 import com.daccord.service.UserService;
 import com.daccord.utils.Utils;
 
@@ -23,32 +25,46 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private CountersService countersService;
+
 	@GetMapping("/all")
-	public List<User> getAllUser() throws InterruptedException, ExecutionException {
-		return userService.getAllUser();
+	public ResponseEntity<List<User>> getAllUser() throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(userService.getAllUser());
 	}
-	
+
 	@GetMapping("/{id}")
-	public User getUserById(@PathVariable String id) throws InterruptedException, ExecutionException {
-		return userService.getUserById(id);
+	public ResponseEntity<User> getUserById(@PathVariable String id) throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(userService.getUserById(id));
 	}
-	
+
 	@PostMapping("/add")
-	public String addUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+	public ResponseEntity<Void> addUser(@RequestBody User user) throws InterruptedException, ExecutionException {
 		Utils util = new Utils();
 		user.set_id(util.geradorId());
+
+		String result = userService.addUser(user);
+
+		if (result != null) {
+			countersService.incrementCountersUser();
+		}
 		
-		return userService.addUser(user);
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
-	public String deleteUser(@PathVariable String id) {
-		return userService.deleteUserById(id);
+	public ResponseEntity<Void> deleteUser(@PathVariable String id) throws InterruptedException, ExecutionException {
+		String result = userService.deleteUserById(id);
+
+		if (result != null) {
+			countersService.decrementCountersUser();
+		}
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping("update")
-	public String updateUser(@RequestBody User user) throws InterruptedException, ExecutionException {
-		return userService.updateUser(user);
+	public ResponseEntity<Void> updateUser(@RequestBody User user) throws InterruptedException, ExecutionException {
+		userService.updateUser(user);
+		return ResponseEntity.noContent().build();
 	}
 }

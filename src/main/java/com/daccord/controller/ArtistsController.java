@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,49 +27,57 @@ public class ArtistsController {
 	private ArtistsService artistsService;
 	@Autowired
 	private CountersService countersService;
-	
+
 	@GetMapping("/all")
-	public List<Artists> getAllArtist() throws InterruptedException, ExecutionException {
-		return artistsService.getAllArtist();
+	public ResponseEntity<List<Artists>> getAllArtist() 
+			throws InterruptedException, ExecutionException {
+
+		return ResponseEntity.ok().body(artistsService.getAllArtist());
 	}
-	
+
 	@GetMapping("/{id}")
-	public Artists getArtistById(@PathVariable String id) throws InterruptedException, ExecutionException {
-		return artistsService.getArtistById(id);
+	public ResponseEntity<Artists> getArtistById(@PathVariable String id)
+			throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(artistsService.getArtistById(id));
 	}
-	
+
 	@PostMapping("/add")
-	public String addArtist(@RequestBody Artists artist) throws InterruptedException, ExecutionException {
+	public ResponseEntity<Void> addArtist(@RequestBody Artists artist) 
+			throws InterruptedException, ExecutionException {
 		Utils util = new Utils();
 		artist.set_id(util.geradorId());
-		
+
 		String result = artistsService.addArtist(artist);
-		
-		if(result != null) {
-			countersService.incrementCountersArtists();			
+
+		if (result != null) {
+			countersService.incrementCountersArtists();
 		}
-		
-		return result;
+
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
-	public String deleteArtist(@PathVariable String id) throws InterruptedException, ExecutionException {
+	public ResponseEntity<Void> deleteArtist(@PathVariable String id) 
+			throws InterruptedException, ExecutionException {
 		String result = artistsService.deleteArtistById(id);
-		
-		if(result != null) {
-			countersService.decrementCountersArtists();			
+
+		if (result != null) {
+			countersService.decrementCountersArtists();
 		}
-	
-		return result;
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@PutMapping("/update")
-	public String updateArtist(@RequestBody Artists artist) throws InterruptedException, ExecutionException {
-		return artistsService.updateArtist(artist);
+	public ResponseEntity<Void> updateArtist(@RequestBody Artists artist)
+			throws InterruptedException, ExecutionException {
+		artistsService.updateArtist(artist);
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("nameart/{name}")
-	public String getNameArtistById(@PathVariable String name) throws InterruptedException, ExecutionException {
-		return artistsService.getNameArtistById(name);
+	public ResponseEntity<Void> getNameArtistById(@PathVariable String name)
+			throws InterruptedException, ExecutionException {
+		artistsService.getNameArtistById(name);
+		return ResponseEntity.noContent().build();
 	}
 }

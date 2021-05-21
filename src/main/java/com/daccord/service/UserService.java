@@ -61,18 +61,31 @@ public class UserService {
 	}
 	
 	public String addUser(User user) throws InterruptedException, ExecutionException {
+		if(user.getName() == null || user.getEmail() == null ||
+				user.getName().equals("") || user.getEmail().equals("")) {
+			return null;
+		}
+		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(user.get_id()).set(user);
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = 
+				dbFirestore.collection(COLLECTION_NAME).document(user.get_id()).set(user);
 		
 		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 	
 	@SuppressWarnings("unused")
-	public String deleteUserById(String id) {
+	public String deleteUserById(String id) throws InterruptedException, ExecutionException {
+		User usuario = getUserById(id);
+		
+		if(usuario == null) {
+			return null;
+		}
+		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = dbFirestore.collection(COLLECTION_NAME).document(id).delete();
+		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture = 
+				dbFirestore.collection(COLLECTION_NAME).document(id).delete();
 		
 		return "User ID: " + id + " deleted";
 	}
