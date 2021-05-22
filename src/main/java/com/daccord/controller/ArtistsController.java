@@ -1,5 +1,8 @@
 package com.daccord.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -79,5 +82,33 @@ public class ArtistsController {
 			throws InterruptedException, ExecutionException {
 		artistsService.getNameArtistById(name);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@SuppressWarnings("null")
+	@PostMapping("/addFile")
+	public String addArtistFile() 
+			throws InterruptedException, ExecutionException {
+		Artists artist = new Artists();
+		Integer count = 0;
+		String path = "C:\\drivers\\artists.txt";
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			
+			String line = br.readLine();
+			
+			while(line != null) {
+				String[] field = line.split(";");
+				artist.setArtist_name(field[0]);
+				artist.setArtist_genre(field[1]);
+				addArtist(artist);
+				line = br.readLine();
+				count++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return count + " Artistas Cadastrados";
 	}
 }
