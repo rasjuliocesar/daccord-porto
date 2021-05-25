@@ -1,7 +1,6 @@
 package com.daccord.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 import com.daccord.entities.User;
 import com.daccord.utils.Utils;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -27,21 +24,19 @@ public class UserService {
 	public List<User> getAllUser() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		Iterable<DocumentReference> docReference = dbFirestore.collection(COLLECTION_NAME).listDocuments();
-		Iterator<DocumentReference> iterator = docReference.iterator();
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("name");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
 		
+		if(!doc.isEmpty()) {
 		List<User> userList = new ArrayList<>();
-		User user = null;
-		
-		while(iterator.hasNext()) {
-			DocumentReference docReference1 = iterator.next();
-			ApiFuture<DocumentSnapshot> future = docReference1.get();
-			DocumentSnapshot doc = future.get();
-			
-			user = doc.toObject(User.class);
-			userList.add(user);
-		}
+		userList.addAll(doc.toObjects(User.class));
+
 		return userList;
+		
+		}else {
+			return null;
+		}
 	}
 	
 	public User getUserById(String id) throws InterruptedException, ExecutionException {

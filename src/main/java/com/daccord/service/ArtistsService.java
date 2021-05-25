@@ -1,7 +1,6 @@
 package com.daccord.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 import com.daccord.entities.Artists;
 import com.daccord.utils.Utils;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -26,22 +23,20 @@ public class ArtistsService {
 	
 	public List<Artists> getAllArtist() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
+	
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("artist_name");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
 		
-		Iterable<DocumentReference> docReference = dbFirestore.collection(COLLECTION_NAME).listDocuments();
-		Iterator<DocumentReference> iterator = docReference.iterator();
-		
+		if(!doc.isEmpty()) {
 		List<Artists> artistList = new ArrayList<>();
-		Artists artist = null;
-		
-		while(iterator.hasNext()) {
-			DocumentReference docReference1 = iterator.next();
-			ApiFuture<DocumentSnapshot> future = docReference1.get();
-			DocumentSnapshot doc = future.get();
-			
-			artist = doc.toObject(Artists.class);
-			artistList.add(artist);
-		}
+		artistList.addAll(doc.toObjects(Artists.class));
+
 		return artistList;
+		
+		}else {
+			return null;
+		}
 	}
 	
 	public Artists getArtistById(String id) throws InterruptedException, ExecutionException {
