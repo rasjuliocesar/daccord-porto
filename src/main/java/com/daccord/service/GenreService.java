@@ -1,7 +1,6 @@
 package com.daccord.service;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.daccord.entities.Genre;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -24,22 +21,19 @@ public class GenreService {
 	public List<Genre> getAllGenre() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
-		Iterable<DocumentReference> docReference = dbFirestore.collection(COLLECTION_NAME).listDocuments();
-		Iterator<DocumentReference> iterator = docReference.iterator();
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("name");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
 		
+		if(!doc.isEmpty()) {
 		List<Genre> genreList = new ArrayList<>();
-		Genre genre = null;
-		
-		while(iterator.hasNext()) {
-			DocumentReference docReference1 = iterator.next();
-			ApiFuture<DocumentSnapshot> future = docReference1.get();
-			DocumentSnapshot doc = future.get();
-			
-			genre = doc.toObject(Genre.class);
-			genreList.add(genre);
-		}
-		
+		genreList.addAll(doc.toObjects(Genre.class));
+
 		return genreList;
+		
+		}else {
+			return null;
+		}
 	}
 	
 	public Genre getGenreById(String id) throws InterruptedException, ExecutionException {
