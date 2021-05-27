@@ -46,6 +46,7 @@ public class SongController {
 		song.set_id(util.geradorId());
 		
 		song.setArtist_id(artistsService.getNameArtistById(song.getArtist()));
+		song.getCifra().set_id(song.get_id());
 		
 		String result = songService.addSong(song);
 		

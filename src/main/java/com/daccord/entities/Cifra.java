@@ -18,12 +18,13 @@ public class Cifra {
 	private String source_url;
 	private String title;
 	private String version;
+	private Integer difficulty;
 	
 	public Cifra() {
 	}
 
 	public Cifra(String _id, String artist, List<String> chord_sequence, String chord_sheet, List<String> chords,
-			List<Map<String, String>> onset_map, String song_id, String source_url, String title, String version) {
+			List<Map<String, String>> onset_map, String song_id, String source_url, String title, String version, Integer difficulty) {
 		
 		Utils util = new Utils();
 		this._id = util.geradorId();
@@ -37,6 +38,7 @@ public class Cifra {
 		this.source_url = source_url;
 		this.title = title;
 		this.version = version;
+		this.difficulty = difficulty;
 	}
 	
 	public String get_id() {
@@ -117,6 +119,14 @@ public class Cifra {
 
 	public void setVersion(String version) {
 		this.version = version;
+	}
+
+	public Integer getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(Integer difficulty) {
+		this.difficulty = difficulty;
 	}
 
 	@Override

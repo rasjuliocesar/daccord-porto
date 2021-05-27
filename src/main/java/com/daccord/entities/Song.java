@@ -15,11 +15,12 @@ public class Song {
 	private String link_audio;
 	private String title;
 	private List<Integer> time_signature = new ArrayList<>();
+	private Cifra cifra;
 	
 	public Song() {
 	}
 	
-	public Song(String _id, String artist, String artist_id, Integer bpm, Integer genre, String link_audio, String title) {
+	public Song(String _id, String artist, String artist_id, Integer bpm, Integer genre, String link_audio, String title, Cifra cifra) {
 		Utils util = new Utils();
 		this._id = util.geradorId();
 		
@@ -29,6 +30,7 @@ public class Song {
 		this.genre = genre;
 		this.link_audio = link_audio;
 		this.title = title;
+		this.cifra = cifra;
 	}
 	
 	public String get_id() {
@@ -93,6 +95,14 @@ public class Song {
 
 	public void setTime_signature(List<Integer> time_signature) {
 		this.time_signature = time_signature;
+	}
+
+	public Cifra getCifra() {
+		return cifra;
+	}
+
+	public void setCifra(Cifra cifra) {
+		this.cifra = cifra;
 	}
 
 	@Override
