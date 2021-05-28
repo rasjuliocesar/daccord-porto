@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,17 +32,17 @@ public class SongController {
 	private ArtistsService artistsService;
 	
 	@GetMapping("/all")
-	public List<Song> getAllSong() throws InterruptedException, ExecutionException {
-		return songService.getAllSong();
+	public ResponseEntity<List<Song>> getAllSong() throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(songService.getAllSong());
 	}
 	
 	@GetMapping("/{id}")
-	public Song getSongById(@PathVariable String id) throws InterruptedException, ExecutionException {
-		return songService.getSongById(id);
+	public ResponseEntity<Song>getSongById(@PathVariable String id) throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(songService.getSongById(id));
 	}
 	
 	@PostMapping("/add")
-	public String addSong(@RequestBody Song song) throws InterruptedException, ExecutionException {
+	public ResponseEntity<Void> addSong(@RequestBody Song song) throws InterruptedException, ExecutionException {
 		Utils util = new Utils();
 		song.set_id(util.geradorId());
 		
@@ -54,21 +55,22 @@ public class SongController {
 			countersService.incrementCountersSong();
 		}
 		
-		return result;
+		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public String deleteSongById(@PathVariable String id) throws InterruptedException, ExecutionException {
+	public ResponseEntity<Void> deleteSongById(@PathVariable String id) throws InterruptedException, ExecutionException {
 		String result = songService.deleteSongById(id);;
 		
 		if(result != null) {
 			countersService.decrementCountersSong();
 		}
-		return result;
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PutMapping("/update")
-	public String updateSong(@RequestBody Song song) throws InterruptedException, ExecutionException {
-		return songService.updateSong(song);
+	public ResponseEntity<Void> updateSong(@RequestBody Song song) throws InterruptedException, ExecutionException {
+		songService.updateSong(song);
+		return ResponseEntity.noContent().build();
 	}
 }
