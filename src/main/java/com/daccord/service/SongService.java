@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.daccord.entities.Song;
 import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -23,6 +24,63 @@ public class SongService {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 
 		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("title");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
+
+		if (!doc.isEmpty()) {
+			List<Song> songList = new ArrayList<>();
+			songList.addAll(doc.toObjects(Song.class));
+
+			return songList;
+
+		} else {
+			return null;
+		}
+	}
+	
+	public List<Song> getAllSongByGenre(Integer value) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+
+		CollectionReference colRef = dbFirestore.collection(COLLECTION_NAME);
+		Query docReference = colRef.whereEqualTo("genre", value);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
+
+		if (!doc.isEmpty()) {
+			List<Song> songList = new ArrayList<>();
+			songList.addAll(doc.toObjects(Song.class));
+
+			return songList;
+
+		} else {
+			return null;
+		}
+	}
+	
+	public List<Song> getAllSongByArtist(String value) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+
+		CollectionReference colRef = dbFirestore.collection(COLLECTION_NAME);
+		Query docReference = colRef.whereEqualTo("artist", value);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
+
+		if (!doc.isEmpty()) {
+			List<Song> songList = new ArrayList<>();
+			songList.addAll(doc.toObjects(Song.class));
+
+			return songList;
+
+		} else {
+			return null;
+		}
+	}
+	
+	public List<Song> getAllSongByName(String value) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+
+		CollectionReference colRef = dbFirestore.collection(COLLECTION_NAME);
+		Query docReference = colRef.whereEqualTo("title", value);
 		ApiFuture<QuerySnapshot> future = docReference.get();
 		QuerySnapshot doc = future.get();
 

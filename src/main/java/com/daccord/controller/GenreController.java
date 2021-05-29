@@ -30,6 +30,17 @@ public class GenreController {
 		return ResponseEntity.ok().body(genreService.getAllGenre());
 	}
 	
+	@SuppressWarnings("unused")
+	@GetMapping("/count/genre")
+	public ResponseEntity<Integer> getCountAllGenre() throws InterruptedException, ExecutionException {
+		Integer count = genreService.getAllGenre().size();
+		
+		if(count != null) {
+			return ResponseEntity.ok().body(count);
+		}
+		return ResponseEntity.ok().body(0);
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Genre> getGenretById(@PathVariable String id)
 			throws InterruptedException, ExecutionException {

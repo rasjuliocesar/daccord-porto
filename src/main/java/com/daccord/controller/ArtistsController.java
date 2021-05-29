@@ -37,6 +37,18 @@ public class ArtistsController {
 
 		return ResponseEntity.ok().body(artistsService.getAllArtist());
 	}
+	
+	@SuppressWarnings("unused")
+	@GetMapping("/count/artist")
+	public ResponseEntity<Integer> getCountAllArtist() 
+			throws InterruptedException, ExecutionException {
+		Integer count = artistsService.getAllArtist().size();
+		
+		if(count != null) {
+			return ResponseEntity.ok().body(count);
+		}
+		return ResponseEntity.ok().body(0);
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Artists> getArtistById(@PathVariable String id)

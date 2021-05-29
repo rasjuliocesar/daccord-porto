@@ -41,6 +41,33 @@ public class SongController {
 		return ResponseEntity.ok().body(songService.getSongById(id));
 	}
 	
+	@GetMapping("/all/genre/{value}")
+	public ResponseEntity<List<Song>> getAllSongByGenre(@PathVariable Integer value) throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(songService.getAllSongByGenre(value));
+	}
+	
+	@GetMapping("/all/artist/{name}")
+	public ResponseEntity<List<Song>> getAllSongByArtist(@PathVariable String name) throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(songService.getAllSongByArtist(name));
+	}
+	
+	@GetMapping("/all/song/{name}")
+	public ResponseEntity<List<Song>> getAllSongByName(@PathVariable String name) throws InterruptedException, ExecutionException {
+		return ResponseEntity.ok().body(songService.getAllSongByName(name));
+	}
+	
+	@SuppressWarnings("unused")
+	@GetMapping("/count/song")
+	public ResponseEntity<Integer> getCountAllSong() throws InterruptedException, ExecutionException {
+		Integer count = songService.getAllSong().size();
+		
+		if(count != null) {
+			return ResponseEntity.ok().body(count);
+		} else {
+			return ResponseEntity.ok().body(0);
+		}
+	}
+	
 	@PostMapping("/add")
 	public ResponseEntity<Void> addSong(@RequestBody Song song) throws InterruptedException, ExecutionException {
 		Utils util = new Utils();
