@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daccord.entities.Genre;
 import com.daccord.entities.Song;
 import com.daccord.service.ArtistsService;
 import com.daccord.service.CountersService;
@@ -34,6 +37,13 @@ public class SongController {
 	@GetMapping("/all")
 	public ResponseEntity<List<Song>> getAllSong() throws InterruptedException, ExecutionException {
 		return ResponseEntity.ok().body(songService.getAllSong());
+	}
+	
+	@GetMapping("/page")
+	public ResponseEntity<Page<Song>> getPageSong(Pageable pageable) 
+			throws InterruptedException, ExecutionException {
+
+		return ResponseEntity.ok().body(songService.getPageSong(pageable));
 	}
 	
 	@GetMapping("/{id}")

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,12 +32,20 @@ public class ArtistsController {
 	private ArtistsService artistsService;
 	@Autowired
 	private CountersService countersService;
-
+	
+	
 	@GetMapping("/all")
 	public ResponseEntity<List<Artists>> getAllArtist() 
 			throws InterruptedException, ExecutionException {
 
 		return ResponseEntity.ok().body(artistsService.getAllArtist());
+	}
+	
+	@GetMapping("/page")
+	public ResponseEntity<Page<Artists>> getPageArtist(Pageable pageable) 
+			throws InterruptedException, ExecutionException {
+
+		return ResponseEntity.ok().body(artistsService.getPageArtist(pageable));
 	}
 	
 	@SuppressWarnings("unused")

@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.daccord.entities.Cifra;
 import com.daccord.entities.Genre;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -30,6 +34,28 @@ public class GenreService {
 		genreList.addAll(doc.toObjects(Genre.class));
 
 		return genreList;
+		
+		}else {
+			return null;
+		}
+	}
+	
+	public Page<Genre> getPageGenre(Pageable pageable) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+	
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("name");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
+		
+		if(!doc.isEmpty()) {
+			List<Genre> genreList = new ArrayList<>();
+			genreList.addAll(doc.toObjects(Genre.class));
+		
+			final int start = (int)pageable.getOffset();
+			final int end = Math.min((start + pageable.getPageSize()), genreList.size());
+			final Page<Genre> genrePage = new PageImpl<>(genreList.subList(start, end), pageable, genreList.size());		
+
+			return genrePage;
 		
 		}else {
 			return null;

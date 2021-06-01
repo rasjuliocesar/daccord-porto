@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daccord.entities.Song;
 import com.daccord.entities.User;
 import com.daccord.service.CountersService;
 import com.daccord.service.UserService;
@@ -31,6 +34,13 @@ public class UserController {
 	@GetMapping("/all")
 	public ResponseEntity<List<User>> getAllUser() throws InterruptedException, ExecutionException {
 		return ResponseEntity.ok().body(userService.getAllUser());
+	}
+	
+	@GetMapping("/page")
+	public ResponseEntity<Page<User>> getPageUser(Pageable pageable) 
+			throws InterruptedException, ExecutionException {
+
+		return ResponseEntity.ok().body(userService.getPageUser(pageable));
 	}
 
 	@GetMapping("/{id}")

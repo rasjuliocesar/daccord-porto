@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.daccord.entities.Artists;
@@ -33,6 +36,28 @@ public class ArtistsService {
 		artistList.addAll(doc.toObjects(Artists.class));
 
 		return artistList;
+		
+		}else {
+			return null;
+		}
+	}
+	
+	public Page<Artists> getPageArtist(Pageable pageable) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+	
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("artist_name");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
+		
+		if(!doc.isEmpty()) {
+			List<Artists> artistList = new ArrayList<>();
+			artistList.addAll(doc.toObjects(Artists.class));
+		
+			final int start = (int)pageable.getOffset();
+			final int end = Math.min((start + pageable.getPageSize()), artistList.size());
+			final Page<Artists> artistPage = new PageImpl<>(artistList.subList(start, end), pageable, artistList.size());		
+
+			return artistPage;
 		
 		}else {
 			return null;

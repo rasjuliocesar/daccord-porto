@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.daccord.entities.Genre;
 import com.daccord.entities.Song;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -34,6 +38,28 @@ public class SongService {
 			return songList;
 
 		} else {
+			return null;
+		}
+	}
+	
+	public Page<Song> getPageSong(Pageable pageable) throws InterruptedException, ExecutionException {
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+	
+		Query docReference = dbFirestore.collection(COLLECTION_NAME).orderBy("title");
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();
+		
+		if(!doc.isEmpty()) {
+			List<Song> songList = new ArrayList<>();
+			songList.addAll(doc.toObjects(Song.class));
+		
+			final int start = (int)pageable.getOffset();
+			final int end = Math.min((start + pageable.getPageSize()), songList.size());
+			final Page<Song> songPage = new PageImpl<>(songList.subList(start, end), pageable, songList.size());		
+
+			return songPage;
+		
+		}else {
 			return null;
 		}
 	}
