@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.daccord.entities.Genre;
 import com.daccord.entities.Song;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -22,7 +21,6 @@ import com.google.firebase.cloud.FirestoreClient;
 public class SongService {
 
 	private static final String COLLECTION_NAME = "song";
-	private static final String SUBCOLLECTION_NAME = "cifra";
 
 	public List<Song> getAllSong() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -149,10 +147,7 @@ public class SongService {
 		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture =
 				dbFirestore.collection(COLLECTION_NAME).document(song.get_id()).set(song);
 		
-		ApiFuture<com.google.cloud.firestore.WriteResult> collectionApiFuture2 =
-				dbFirestore.collection(COLLECTION_NAME).document(song.get_id()).collection(SUBCOLLECTION_NAME).document().set(song.getCifra());
-
-		return collectionApiFuture.get().getUpdateTime().toString() + collectionApiFuture2.get().getUpdateTime().toString();
+		return collectionApiFuture.get().getUpdateTime().toString();
 	}
 
 	@SuppressWarnings("unused")

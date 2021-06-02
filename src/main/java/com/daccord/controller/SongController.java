@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daccord.entities.Genre;
 import com.daccord.entities.Song;
 import com.daccord.service.ArtistsService;
 import com.daccord.service.CountersService;
@@ -84,8 +83,7 @@ public class SongController {
 		song.set_id(util.geradorId());
 		
 		song.setArtist_id(artistsService.getNameArtistById(song.getArtist()));
-		song.getCifra().set_id(song.get_id());
-		
+	
 		String result = songService.addSong(song);
 		
 		if(result != null) {
