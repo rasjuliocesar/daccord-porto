@@ -85,15 +85,18 @@ public class SongService {
 		counter.add(0);
 		counter.add(0);
 		counter.add(0);
+		counter.add(0);
 		
 		if (!doc.isEmpty()) {
 			List<Song> songList = new ArrayList<>();
 			songList.addAll(doc.toObjects(Song.class));
 			
 			for (int i = 0; i < songList.size(); i++) {
+				System.out.println(songList.get(i).getDifficulty());
 				counter.set(0, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 0 ? counter.get(0) + 1 : counter.get(0));
 				counter.set(1, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 1 ? counter.get(1) + 1 : counter.get(1));
 				counter.set(2, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 2 ? counter.get(2) + 1 : counter.get(2));
+				counter.set(3, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 3 ? counter.get(3) + 1 : counter.get(2));
 			}
 		}
 		
@@ -106,6 +109,9 @@ public class SongService {
 		JSONObject d3 = new JSONObject();
 		d3.put("difficulty 2", counter.get(2));
 		difficultyList.add(d3);
+		JSONObject d4 = new JSONObject();
+		d4.put("difficulty 3", counter.get(2));
+		difficultyList.add(d4);
 		
 		return difficultyList;
 

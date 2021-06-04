@@ -44,17 +44,9 @@ public class SongController {
 	public ResponseEntity<Page<Song>> getPageSong(Pageable pageable) throws InterruptedException, ExecutionException {
 		return ResponseEntity.ok().body(songService.getPageSong(pageable));
 	}
-	/*
-	@GetMapping("/test")
-	public ResponseEntity<List<String>> getDifficulty() throws InterruptedException, ExecutionException {		
-		return ResponseEntity.ok().body(songService.getDifficulty());		
-	}
-	*/
 	
 	@GetMapping("/difficulty")
-	public ResponseEntity<List<JSONObject>> getDifficulty() throws InterruptedException, ExecutionException {
-		
-		System.out.println(songService.getDifficulty());
+	public ResponseEntity<List<JSONObject>> getDifficulty() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getDifficulty());
 	}
 	
