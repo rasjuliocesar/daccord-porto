@@ -1,8 +1,10 @@
 package com.daccord.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,10 +41,21 @@ public class SongController {
 	}
 	
 	@GetMapping("/page")
-	public ResponseEntity<Page<Song>> getPageSong(Pageable pageable) 
-			throws InterruptedException, ExecutionException {
-
+	public ResponseEntity<Page<Song>> getPageSong(Pageable pageable) throws InterruptedException, ExecutionException {
 		return ResponseEntity.ok().body(songService.getPageSong(pageable));
+	}
+	/*
+	@GetMapping("/test")
+	public ResponseEntity<List<String>> getDifficulty() throws InterruptedException, ExecutionException {		
+		return ResponseEntity.ok().body(songService.getDifficulty());		
+	}
+	*/
+	
+	@GetMapping("/difficulty")
+	public ResponseEntity<List<JSONObject>> getDifficulty() throws InterruptedException, ExecutionException {
+		
+		System.out.println(songService.getDifficulty());
+		return ResponseEntity.ok().body(songService.getDifficulty());
 	}
 	
 	@GetMapping("/{id}")
