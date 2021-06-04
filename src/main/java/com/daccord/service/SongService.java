@@ -70,7 +70,7 @@ public class SongService {
 			return null;
 		}
 	}	
-// *****************************************************************************	
+
 	public List<JSONObject> getDifficulty() throws InterruptedException, ExecutionException {
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -92,7 +92,6 @@ public class SongService {
 			songList.addAll(doc.toObjects(Song.class));
 			
 			for (int i = 0; i < songList.size(); i++) {
-				System.out.println(songList.get(i).getDifficulty());
 				counter.set(0, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 0 ? counter.get(0) + 1 : counter.get(0));
 				counter.set(1, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 1 ? counter.get(1) + 1 : counter.get(1));
 				counter.set(2, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 2 ? counter.get(2) + 1 : counter.get(2));
@@ -112,11 +111,11 @@ public class SongService {
 		JSONObject d4 = new JSONObject();
 		d4.put("difficulty 3", counter.get(2));
 		difficultyList.add(d4);
-		
+
 		return difficultyList;
 
 	}
-// *****************************************************************************	
+
 	public List<Song> getAllSongByGenre(Integer value) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 
