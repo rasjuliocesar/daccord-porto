@@ -50,6 +50,16 @@ public class SongController {
 		return ResponseEntity.ok().body(songService.getDifficulty());
 	}
 	
+	@GetMapping("/chords")
+	public ResponseEntity<List<JSONObject>> getChords() throws InterruptedException, ExecutionException {		
+		return ResponseEntity.ok().body(songService.getChords());
+	}
+	
+	@GetMapping("/genre")
+	public ResponseEntity<List<JSONObject>> getGenre() throws InterruptedException, ExecutionException {		
+		return ResponseEntity.ok().body(songService.getGenre());
+	}
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Song>getSongById(@PathVariable String id) throws InterruptedException, ExecutionException {
 		return ResponseEntity.ok().body(songService.getSongById(id));
