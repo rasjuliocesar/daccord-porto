@@ -2,6 +2,7 @@ package com.daccord.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.json.simple.JSONObject;
@@ -46,7 +47,7 @@ public class SongController {
 	}
 	
 	@GetMapping("/difficulty")
-	public ResponseEntity<List<JSONObject>> getDifficulty() throws InterruptedException, ExecutionException {		
+	public ResponseEntity<Map<Object, Long>> getDifficulty() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getDifficulty());
 	}
 	
@@ -54,10 +55,15 @@ public class SongController {
 	public ResponseEntity<List<JSONObject>> getChords() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getChords());
 	}
-	
+
 	@GetMapping("/genre")
-	public ResponseEntity<List<JSONObject>> getGenre() throws InterruptedException, ExecutionException {		
+	public ResponseEntity<Map<Object, Long>> getGenre() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getGenre());
+	}
+	
+	@GetMapping("/artist")
+	public ResponseEntity<Map<Object, Long>> getArtist() throws InterruptedException, ExecutionException {		
+		return ResponseEntity.ok().body(songService.getArtist());
 	}
 	
 	@GetMapping("/{id}")

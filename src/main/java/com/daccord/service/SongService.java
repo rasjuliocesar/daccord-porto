@@ -1,9 +1,12 @@
 package com.daccord.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
@@ -71,7 +74,7 @@ public class SongService {
 		}
 	}	
 	/******************************************************************************* CONTADOR DIFICULDADE *****/
-	public List<JSONObject> getDifficulty() throws InterruptedException, ExecutionException {
+	public Map<Object, Long> getDifficulty() throws InterruptedException, ExecutionException {
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 
@@ -79,40 +82,14 @@ public class SongService {
 		ApiFuture<QuerySnapshot> future = docReference.get();
 		QuerySnapshot doc = future.get();
 		
-		List<JSONObject> difficultyList = new ArrayList<>(); 
-		ArrayList<Integer> counter = new ArrayList<Integer>();
-		
-		counter.add(0);
-		counter.add(0);
-		counter.add(0);
-		counter.add(0);
-		
 		if (!doc.isEmpty()) {
 			List<Song> songList = new ArrayList<>();
 			songList.addAll(doc.toObjects(Song.class));
-			
-			for (int i = 0; i < songList.size(); i++) {
-				counter.set(0, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 0 ? counter.get(0) + 1 : counter.get(0));
-				counter.set(1, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 1 ? counter.get(1) + 1 : counter.get(1));
-				counter.set(2, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 2 ? counter.get(2) + 1 : counter.get(2));
-				counter.set(3, songList.get(i).getDifficulty() != null && songList.get(i).getDifficulty() == 3 ? counter.get(3) + 1 : counter.get(3));
-			}
+			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getDifficulty(), Collectors.counting()));
+			return collect;
+		} else {
+			return null;
 		}
-		
-		JSONObject d1 = new JSONObject();
-		d1.put("Super facil", counter.get(0));
-		difficultyList.add(d1);
-		JSONObject d2 = new JSONObject();
-		d2.put("Facil", counter.get(1));
-		difficultyList.add(d2);
-		JSONObject d3 = new JSONObject();
-		d3.put("Medio", counter.get(2));
-		difficultyList.add(d3);
-		JSONObject d4 = new JSONObject();
-		d4.put("Dificil", counter.get(3));
-		difficultyList.add(d4);
-
-		return difficultyList;
 
 	}
 	/******************************************************************************* CONTADOR MUSICA/ACORDES **/
@@ -166,40 +143,41 @@ public class SongService {
 
 	}
 	/******************************************************************************* CONTADOR MUSICA/GENERO ***/
-	public List<JSONObject> getGenre() throws InterruptedException, ExecutionException {
+	public Map<Object, Long> getArtist() throws InterruptedException, ExecutionException {
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
-
+		
 		Query docReference = dbFirestore.collection(COLLECTION_NAME);
 		ApiFuture<QuerySnapshot> future = docReference.get();
-		QuerySnapshot doc = future.get();
-		
-		List<JSONObject> chordsList = new ArrayList<>(); 
-		ArrayList<Integer> counter = new ArrayList<Integer>();
-		
-		counter.add(0);
-		counter.add(0);
-		counter.add(0);
-		counter.add(0);
-		counter.add(0);
+		QuerySnapshot doc = future.get();	
 		
 		if (!doc.isEmpty()) {
 			List<Song> songList = new ArrayList<>();
 			songList.addAll(doc.toObjects(Song.class));
-			
-			for (int i = 0; i < songList.size(); i++) {				
-				counter.set(0, songList.get(i).getChords().size() >= 0 && songList.get(i).getChords().size() <= 3 ? counter.get(0) + 1 : counter.get(0));
-				counter.set(1, songList.get(i).getChords().size() >= 4 && songList.get(i).getChords().size() <= 5 ? counter.get(1) + 1 : counter.get(1));
-				counter.set(2, songList.get(i).getChords().size() >= 6 && songList.get(i).getChords().size() <= 8 ? counter.get(2) + 1 : counter.get(2));
-				counter.set(3, songList.get(i).getChords().size() >= 9 && songList.get(i).getChords().size() <= 12 ? counter.get(3) + 1 : counter.get(3));
-				counter.set(4, songList.get(i).getChords().size() > 12 ? counter.get(4) + 1 : counter.get(4));
-			
-				
-			}
+			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getArtist(), Collectors.counting()));
+			return collect;
+		} else {
+			return null;
 		}
-		JSONObject json = new JSONObject();
-		chordsList.set(0, json).put("0-3", counter.get(0));
-		return chordsList;
+
+	}
+	/******************************************************************************* CONTADOR MUSICA/ARTISTA ***/
+	public Map<Object, Long> getGenre() throws InterruptedException, ExecutionException {
+		
+		Firestore dbFirestore = FirestoreClient.getFirestore();
+		
+		Query docReference = dbFirestore.collection(COLLECTION_NAME);
+		ApiFuture<QuerySnapshot> future = docReference.get();
+		QuerySnapshot doc = future.get();	
+		
+		if (!doc.isEmpty()) {
+			List<Song> songList = new ArrayList<>();
+			songList.addAll(doc.toObjects(Song.class));
+			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getGenre(), Collectors.counting()));
+			return collect;
+		} else {
+			return null;
+		}
 
 	}
 
