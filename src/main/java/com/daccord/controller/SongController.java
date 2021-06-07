@@ -1,5 +1,8 @@
 package com.daccord.controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -128,5 +131,54 @@ public class SongController {
 	public ResponseEntity<Void> updateSong(@RequestBody Song song) throws InterruptedException, ExecutionException {
 		songService.updateSong(song);
 		return ResponseEntity.noContent().build();
+	}
+	
+	public String addSongFile() 
+			throws InterruptedException, ExecutionException {
+		Song song = new Song();
+		Integer count = 0;
+		String path = "C:\\drivers\\song.txt";
+		
+		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+			
+			String line = br.readLine();
+			
+			while(line != null) {
+				String[] field = line.split(";");
+				song.setArtist(field[0]);
+				
+				Integer bpm = Integer.parseInt(field[1]);
+				song.setBpm(bpm);
+				
+				Integer genre = Integer.parseInt(field[2]);
+				song.setGenre(genre);
+				
+				song.setLink_audio(field[3]);
+				song.setTitle(field[4]);
+				song.setChord_sheet(field[5]);
+				
+				List<String> chords = new ArrayList<String>();
+				String[] fieldChords = field[6].split(",");
+				for(String c : fieldChords) {
+					chords.add(c);
+				}
+				song.setChords(chords);
+				
+				song.setSource_url(field[7]);
+				
+				Integer difficulty = Integer.parseInt(field[8]);
+				song.setDifficulty(difficulty);
+				
+				song.setVersion(field[9]);
+				addSong(song);
+				line = br.readLine();
+				count++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return count + " Músicas Cadastradas";
 	}
 }
