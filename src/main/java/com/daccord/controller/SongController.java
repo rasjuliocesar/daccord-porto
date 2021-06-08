@@ -133,11 +133,12 @@ public class SongController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PostMapping("/addFile")
 	public String addSongFile() 
 			throws InterruptedException, ExecutionException {
 		Song song = new Song();
 		Integer count = 0;
-		String path = "C:\\drivers\\song.txt";
+		String path = "C:\\drivers\\songs.txt";
 		
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 			
@@ -157,7 +158,7 @@ public class SongController {
 				song.setTitle(field[4]);
 				song.setChord_sheet(field[5]);
 				
-				List<String> chords = new ArrayList<String>();
+				List<String> chords = new ArrayList<>();
 				String[] fieldChords = field[6].split(",");
 				for(String c : fieldChords) {
 					chords.add(c);
