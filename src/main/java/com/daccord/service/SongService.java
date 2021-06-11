@@ -68,37 +68,6 @@ public class SongService {
 		}
 	}	
 	/******************************************************************************* CONTADOR DIFICULDADE *****/
-	/*public List<JSONObject> getDifficulty() throws InterruptedException, ExecutionException {
-		
-		Firestore dbFirestore = FirestoreClient.getFirestore();
-
-		Query docReference = dbFirestore.collection(COLLECTION_NAME);
-		ApiFuture<QuerySnapshot> future = docReference.get();
-		QuerySnapshot doc = future.get();
-		
-		List<JSONObject> difficultyList = new ArrayList<>(); 
-		
-		if (!doc.isEmpty()) {
-			List<Song> songList = new ArrayList<>();
-			songList.addAll(doc.toObjects(Song.class));
-			
-			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getDifficulty(), Collectors.counting()));
-			
-			JSONObject json0 = new JSONObject(collect.containsKey("0"));
-			JSONObject json1 = new JSONObject(collect);
-			JSONObject json2 = new JSONObject(collect);
-			JSONObject json3 = new JSONObject(collect);
-			
-			
-			difficultyList.add(json);
-			
-			return difficultyList;
-		} else {
-			return null;
-		}
-
-	}*/
-	
 	@SuppressWarnings("unchecked")
 	public List<JSONObject> getDifficulty() throws InterruptedException, ExecutionException {
 		
@@ -145,8 +114,6 @@ public class SongService {
 		return dificultyList;
 
 	}
-	
-	
 	
 	/******************************************************************************* CONTADOR MUSICA/ACORDES **/
 	@SuppressWarnings("unchecked")
@@ -200,7 +167,8 @@ public class SongService {
 
 	}
 	/******************************************************************************* CONTADOR MUSICA/GENERO ***/
-	public Map<Object, Long> getArtist() throws InterruptedException, ExecutionException {
+	@SuppressWarnings("unchecked")
+	public List<JSONObject> getArtist() throws InterruptedException, ExecutionException {
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
@@ -208,30 +176,45 @@ public class SongService {
 		ApiFuture<QuerySnapshot> future = docReference.get();
 		QuerySnapshot doc = future.get();	
 		
+		List<JSONObject> artistsList = new ArrayList<>(); 
+		
 		if (!doc.isEmpty()) {
 			List<Song> songList = new ArrayList<>();
 			songList.addAll(doc.toObjects(Song.class));
 			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getArtist(), Collectors.counting()));
-			return collect;
+			for (Map.Entry<Object, Long> entrada : collect.entrySet()) {
+				JSONObject json = new JSONObject();
+				json.put(entrada.getKey(),entrada.getValue());
+				artistsList.add(json);
+			}			
+			return artistsList;
 		} else {
 			return null;
 		}
 
 	}
 	/******************************************************************************* CONTADOR MUSICA/ARTISTA ***/
-	public Map<Object, Long> getGenre() throws InterruptedException, ExecutionException {
+	@SuppressWarnings("unchecked")
+	public List<JSONObject> getGenre() throws InterruptedException, ExecutionException {
 		
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		Query docReference = dbFirestore.collection(COLLECTION_NAME);
 		ApiFuture<QuerySnapshot> future = docReference.get();
-		QuerySnapshot doc = future.get();	
+		QuerySnapshot doc = future.get();
+		
+		List<JSONObject> genreList = new ArrayList<>(); 
 		
 		if (!doc.isEmpty()) {
 			List<Song> songList = new ArrayList<>();
 			songList.addAll(doc.toObjects(Song.class));
 			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getGenre(), Collectors.counting()));
-			return collect;
+			for (Map.Entry<Object, Long> entrada : collect.entrySet()) {
+				JSONObject json = new JSONObject();
+				json.put(entrada.getKey(),entrada.getValue());
+				genreList.add(json);
+			}
+			return genreList;
 		} else {
 			return null;
 		}

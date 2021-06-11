@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import org.json.simple.JSONObject;
@@ -60,12 +59,12 @@ public class SongController {
 	}
 
 	@GetMapping("/genre")
-	public ResponseEntity<Map<Object, Long>> getGenre() throws InterruptedException, ExecutionException {		
+	public ResponseEntity<List<JSONObject>> getGenre() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getGenre());
 	}
 	
 	@GetMapping("/artist")
-	public ResponseEntity<Map<Object, Long>> getArtist() throws InterruptedException, ExecutionException {		
+	public ResponseEntity<List<JSONObject>> getArtist() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getArtist());
 	}
 	
