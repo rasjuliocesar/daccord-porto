@@ -50,7 +50,7 @@ public class SongController {
 	}
 	
 	@GetMapping("/difficulty")
-	public ResponseEntity<Map<Object, Long>> getDifficulty() throws InterruptedException, ExecutionException {		
+	public ResponseEntity<List<JSONObject>> getDifficulty() throws InterruptedException, ExecutionException {		
 		return ResponseEntity.ok().body(songService.getDifficulty());
 	}
 	
