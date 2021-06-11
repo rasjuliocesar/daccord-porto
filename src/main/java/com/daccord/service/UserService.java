@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.daccord.entities.Song;
 import com.daccord.entities.User;
 import com.daccord.utils.Utils;
 import com.google.api.core.ApiFuture;

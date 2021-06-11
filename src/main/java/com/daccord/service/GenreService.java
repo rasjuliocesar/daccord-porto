@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.daccord.entities.Cifra;
 import com.daccord.entities.Genre;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
@@ -130,7 +129,7 @@ public class GenreService {
 		}
 	}
 	
-	public String getNameGenretById3(String id3) throws InterruptedException, ExecutionException {
+	public String getNameGenretById3(Integer id3) throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
 		
 		Query docReference = dbFirestore.collection(COLLECTION_NAME).whereEqualTo("id3", id3);

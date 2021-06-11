@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,9 @@ import com.google.firebase.cloud.FirestoreClient;
 public class SongService {
 
 	private static final String COLLECTION_NAME = "song";
+	
+	@Autowired
+	private GenreService genreService;
 
 	public List<Song> getAllSong() throws InterruptedException, ExecutionException {
 		Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -211,7 +215,9 @@ public class SongService {
 			Map<Object, Long> collect = songList.stream().collect(Collectors.groupingBy(item -> item.getGenre(), Collectors.counting()));
 			for (Map.Entry<Object, Long> entrada : collect.entrySet()) {
 				JSONObject json = new JSONObject();
-				json.put(entrada.getKey(),entrada.getValue());
+				System.out.println(entrada.getKey().toString());
+				String nameGenre = genreService.getNameGenretById3(Integer.parseInt(entrada.getKey().toString()));
+				json.put(nameGenre,entrada.getValue());
 				genreList.add(json);
 			}
 			return genreList;

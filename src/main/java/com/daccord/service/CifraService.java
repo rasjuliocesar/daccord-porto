@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.daccord.entities.Artists;
 import com.daccord.entities.Cifra;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;

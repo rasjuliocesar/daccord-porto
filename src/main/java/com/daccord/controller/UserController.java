@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daccord.entities.Song;
 import com.daccord.entities.User;
 import com.daccord.service.CountersService;
 import com.daccord.service.UserService;

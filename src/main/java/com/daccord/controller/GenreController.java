@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daccord.entities.Cifra;
 import com.daccord.entities.Genre;
 import com.daccord.service.GenreService;
 import com.daccord.utils.Utils;
@@ -91,9 +90,10 @@ public class GenreController {
 	}
 	
 	@GetMapping("id3/{id3}")
-	public ResponseEntity<Genre> getNameGenretById3(@PathVariable String id3)
+	public ResponseEntity<String> getNameGenretById3(@PathVariable Integer id3)
 			throws InterruptedException, ExecutionException {
-		genreService.getNameGenretById3(id3);
-		return ResponseEntity.noContent().build();
+		String genre = genreService.getNameGenretById3(id3);
+		return ResponseEntity.ok().body(genre);
 	}
+	
 }
